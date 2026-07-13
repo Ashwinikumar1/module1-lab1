@@ -29,11 +29,11 @@ You are provided with the customer's production AWS environment export file (`da
 
 | Document | File Path | Description & Purpose |
 | :--- | :--- | :--- |
-| 🧑‍🎓 **Student Lab Execution Guide** | **[docs/STUDENT_LAB_GUIDE.md](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/STUDENT_LAB_GUIDE.md)** | **START HERE**. Primary step-by-step student instructions, permission checklist, and troubleshooting table. |
-| 📝 **Step-by-Step Solution Document** | **[docs/STEP_BY_STEP_SOLUTION.md](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/STEP_BY_STEP_SOLUTION.md)** | Complete technical step-by-step walkthrough detailing resource mappings and commands. |
-| 📊 **Deployment & Evaluation Report** | **[docs/lab_deployment_solution_report.md](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/lab_deployment_solution_report.md)** | Summary report detailing architecture mapping, IAM role matrices, and Org Policy compliance. |
-| 🔍 **AWS to GCP Technical Analysis** | **[docs/aws_to_gcp_migration_analysis.md](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/aws_to_gcp_migration_analysis.md)** | Technical comparison breakdown of the source AWS infrastructure and target GCP architecture. |
-| 💼 **Value Proposition & TCO Report** | **[docs/gcp_value_proposition_analysis.md](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/gcp_value_proposition_analysis.md)** | Executive proposal highlighting cost savings, latency improvements, and DevOps efficiency gains. |
+| 🧑‍🎓 **Student Lab Execution Guide** | **[docs/STUDENT_LAB_GUIDE.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/STUDENT_LAB_GUIDE.md)** | **START HERE**. Primary step-by-step student instructions, permission checklist, and troubleshooting table. |
+| 📝 **Step-by-Step Solution Document** | **[docs/STEP_BY_STEP_SOLUTION.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/STEP_BY_STEP_SOLUTION.md)** | Complete technical step-by-step walkthrough detailing resource mappings and commands. |
+| 📊 **Deployment & Evaluation Report** | **[docs/lab_deployment_solution_report.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/lab_deployment_solution_report.md)** | Summary report detailing architecture mapping, IAM role matrices, and Org Policy compliance. |
+| 🔍 **AWS to GCP Technical Analysis** | **[docs/aws_to_gcp_migration_analysis.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/aws_to_gcp_migration_analysis.md)** | Technical comparison breakdown of the source AWS infrastructure and target GCP architecture. |
+| 💼 **Value Proposition & TCO Report** | **[docs/gcp_value_proposition_analysis.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/gcp_value_proposition_analysis.md)** | Executive proposal highlighting cost savings, latency improvements, and DevOps efficiency gains. |
 
 ---
 

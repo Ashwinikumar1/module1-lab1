@@ -46,7 +46,7 @@ Because your project operates under the **Altostrat Organization**, security pol
 
 1. Open your terminal and navigate to the Terraform directory:
    ```bash
-   cd /Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/terraform
+   cd /Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/terraform
    ```
 
 2. Set your assigned Altostrat GCP Project ID:
@@ -83,7 +83,7 @@ Because your project operates under the **Altostrat Organization**, security pol
    ```
    *Note the AWS VPC CIDR `10.17.0.0/16`, EKS node pool specs (`c5.large`), KMS Key ARN, and S3 deployment bucket.*
 
-2. Review [main.tf](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/terraform/main.tf) to observe the AWS-to-GCP resource translations:
+2. Review [main.tf](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/terraform/main.tf) to observe the AWS-to-GCP resource translations:
    - AWS VPC ➔ `google_compute_network` (`adserver1-prd-vpc`) & `google_compute_subnetwork` (`adserver1-prd-subnet-a`)
    - AWS KMS Key ➔ `google_kms_key_ring` & `google_kms_crypto_key` (`adserver1-prd-gke-key`)
    - AWS EKS Cluster & Node Pool ➔ `google_container_cluster` (`adserver1-prd`) & `google_container_node_pool` (`prd-adserver1-prd-main`)
@@ -95,7 +95,7 @@ Because your project operates under the **Altostrat Organization**, security pol
 
 1. Ensure you are in the `terraform/` directory:
    ```bash
-   cd /Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/terraform
+   cd /Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/terraform
    terraform init
    ```
 
@@ -114,10 +114,10 @@ Because your project operates under the **Altostrat Organization**, security pol
 
 ### Task 4: Verify Deployment & Automated Grading
 
-Run the automated verification script [verify.sh](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/terraform/verify.sh) to test all 5 evaluation checkpoints:
+Run the automated verification script [verify.sh](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/terraform/verify.sh) to test all 5 evaluation checkpoints:
 
 ```bash
-cd /Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/terraform
+cd /Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/terraform
 bash verify.sh
 ```
 

@@ -70,7 +70,7 @@ gcloud services enable \
 
 ### Step 2: Initialize Terraform Backend & Download Providers
 ```bash
-cd /Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2
+cd /Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2
 terraform init
 ```
 

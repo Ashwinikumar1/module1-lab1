@@ -44,9 +44,9 @@ Module1/
 - Enforce IAM least-privilege access for cloud resources.
 
 ### 📚 Documents to Refer To for Lab 1
-1. **[Lab 1 Setup Guide](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab1/docs/lab_setup_guide.md)**: Environment preparation, Node.js runtime setup, and GCP authentication.
-2. **[Lab 1 Assignment](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab1/docs/lab_assignment.md)**: Step-by-step task requirements and container building procedures.
-3. **[Lab 1 Readme](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab1/docs/README.md)**: Architectural overview of the sample HR Vacation service.
+1. **[Lab 1 Setup Guide](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab1/docs/lab_setup_guide.md)**: Environment preparation, Node.js runtime setup, and GCP authentication.
+2. **[Lab 1 Assignment](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab1/docs/lab_assignment.md)**: Step-by-step task requirements and container building procedures.
+3. **[Lab 1 Readme](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab1/docs/README.md)**: Architectural overview of the sample HR Vacation service.
 
 ### ⚡ Quick Start for Lab 1
 ```bash
@@ -65,11 +65,11 @@ bash deploy.sh
 - Automated test scoring and infrastructure verification using `verify.sh`.
 
 ### 📚 Documents to Refer To for Lab 2
-1. **[Student Lab Execution Guide](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/STUDENT_LAB_GUIDE.md)** (**START HERE**): Step-by-step student instructions, Altostrat permission checklists, and troubleshooting table.
-2. **[Step-by-Step Solution Guide](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/STEP_BY_STEP_SOLUTION.md)**: Technical solution guide mapping AWS JSON primitives to GCP Terraform resources.
-3. **[Solution & Evaluation Report](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/lab_deployment_solution_report.md)**: Full lab summary, role matrices, and policy compliance rules.
-4. **[AWS to GCP Migration Strategy](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/aws_to_gcp_migration_analysis.md)**: In-depth technical architecture comparison.
-5. **[Value Proposition & Business Analysis](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/docs/gcp_value_proposition_analysis.md)**: Executive TCO benefits and modernization strategy.
+1. **[Student Lab Execution Guide](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/STUDENT_LAB_GUIDE.md)** (**START HERE**): Step-by-step student instructions, Altostrat permission checklists, and troubleshooting table.
+2. **[Step-by-Step Solution Guide](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/STEP_BY_STEP_SOLUTION.md)**: Technical solution guide mapping AWS JSON primitives to GCP Terraform resources.
+3. **[Solution & Evaluation Report](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/lab_deployment_solution_report.md)**: Full lab summary, role matrices, and policy compliance rules.
+4. **[AWS to GCP Migration Strategy](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/aws_to_gcp_migration_analysis.md)**: In-depth technical architecture comparison.
+5. **[Value Proposition & Business Analysis](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/docs/gcp_value_proposition_analysis.md)**: Executive TCO benefits and modernization strategy.
 
 ### ⚡ Quick Start for Lab 2
 ```bash

@@ -6,7 +6,7 @@
 ---
 
 ## Task Summary & Objective
-This guide outlines the complete step-by-step process to analyze the customer's AWS environment state file ([aws_environment.json](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/aws_environment.json)), map all AWS resources to Google Cloud Platform equivalents, and deploy the corresponding reference infrastructure code to GCP project `alpha-code-461805`.
+This guide outlines the complete step-by-step process to analyze the customer's AWS environment state file ([aws_environment.json](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/aws_environment.json)), map all AWS resources to Google Cloud Platform equivalents, and deploy the corresponding reference infrastructure code to GCP project `alpha-code-461805`.
 
 ---
 
@@ -43,7 +43,7 @@ This guide outlines the complete step-by-step process to analyze the customer's 
 
 ---
 
-## Step 3: Terraform Code Setup ([main.tf](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/main.tf))
+## Step 3: Terraform Code Setup ([main.tf](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/main.tf))
 
 Review the created Terraform code mapping AWS to GCP:
 

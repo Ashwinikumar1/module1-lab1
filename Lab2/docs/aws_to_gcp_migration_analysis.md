@@ -1,7 +1,7 @@
 # AWS to GCP Migration Analysis & Proposal
 **Customer**: Cymbal Group - AdServer Production Migration Team  
 **Lab Code**: 1.4 (Module 1 - Phase 4)  
-**Source Infrastructure File**: [aws_environment.json](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/data/aws_environment.json)
+**Source Infrastructure File**: [aws_environment.json](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/data/aws_environment.json)
 
 ---
 
@@ -103,7 +103,7 @@ graph TD
 
 ## 5. GCP Reference Infrastructure Code
 
-The corresponding GCP Terraform code has been generated and saved to [main.tf](file:///Users/ashwinikm/Desktop/Project_Elevate/Module1/Lab2/main.tf).
+The corresponding GCP Terraform code has been generated and saved to [main.tf](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/main.tf).
 
 ### Quick Deployment Instructions:
 ```bash
