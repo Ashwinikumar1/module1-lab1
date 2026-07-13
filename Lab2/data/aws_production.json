@@ -1,0 +1,669 @@
+{
+  "version": 3,
+  "terraform_version": "0.12.31",
+  "serial": 1,
+  "lineage": "78d0e957-f85d-7abf-764b-15d8988cfb23",
+  "modules": [
+    {
+      "path": [
+        "root"
+      ],
+      "outputs": {
+        "aws_eks_cluster_tfer--adserver1-prd_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "adserver1-prd"
+        },
+        "aws_eks_node_group_tfer--prd-adserver1-prd-main_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "adserver1-prd:prd-adserver1-prd-main"
+        },
+        "aws_vpc_tfer--vpc-0f66b00d630fa0eae_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "vpc-0f66b00d630fa0eae"
+        },
+        "aws_subnet_tfer--subnet-0836817029577d368_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "subnet-0836817029577d368"
+        },
+        "aws_subnet_tfer--subnet-0cec9bdb77e81cf37_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "subnet-0cec9bdb77e81cf37"
+        },
+        "aws_security_group_tfer--prd-adserver1-prd-k8s-sg_sg-0deedaa55b108dd70_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "sg-0deedaa55b108dd70"
+        },
+        "aws_iam_role_policy_attachment_tfer--prd-adserver1-prd-k8s-role_AmazonEKSClusterPolicy_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "prd-adserver1-prd-k8s-role/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+        },
+        "aws_iam_role_policy_attachment_tfer--prd-adserver1-prd-k8s-role_AmazonEKSVPCResourceController_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "prd-adserver1-prd-k8s-role/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+        },
+        "aws_iam_role_policy_attachment_tfer--prd-adserver1-prd-main-role_AmazonEC2ContainerRegistryReadOnly_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "prd-adserver1-prd-main-role/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+        },
+        "aws_iam_role_policy_attachment_tfer--prd-adserver1-prd-main-role_AmazonEKSWorkerNodePolicy_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "prd-adserver1-prd-main-role/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+        },
+        "aws_kms_key_tfer--592c4134-01bd-4ab1-82eb-9c9824529375_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "592c4134-01bd-4ab1-82eb-9c9824529375"
+        },
+        "aws_kms_alias_tfer--alias-002F-eks-002F-adserver1-prd_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "alias/eks/adserver1-prd"
+        },
+        "aws_s3_bucket_tfer--ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5"
+        },
+        "aws_s3_bucket_policy_tfer--ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5_id": {
+          "sensitive": false,
+          "type": "string",
+          "value": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5"
+        }
+      },
+      "resources": {
+        "aws_eks_cluster.tfer--adserver1-prd": {
+          "type": "aws_eks_cluster",
+          "depends_on": [],
+          "primary": {
+            "id": "adserver1-prd",
+            "attributes": {
+              "access_config.#": "1",
+              "access_config.0.authentication_mode": "API_AND_CONFIG_MAP",
+              "access_config.0.bootstrap_cluster_creator_admin_permissions": "true",
+              "arn": "arn:aws:eks:us-east-1:123456789012:cluster/adserver1-prd",
+              "bootstrap_self_managed_addons": "false",
+              "certificate_authority.#": "1",
+              "certificate_authority.0.data": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJRnI0MytCRkp4YU13RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TkRBeU1UVXhNelE0TlRsYUZ3MHpOREF5TVRJeE16VXpOVGxhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURNbWh5MkxxWk93K0FRTEROdUFLTlR1OUdTQ3lTb2dsWlFmOTYrdEQ1d3YreHUxVWV2UjhSVjM5YS8KdDZlOVZQUElmTUpHYnRScmV5cVFTdWlIc29YRjRKc21jdGkybjQyU29iVVNXaFpEeDVjQ2dBV1VVQzdvNG9pTAp1aW5RckMyZ2trZWFLVnBqU1FxQnpsK3RoTUdHR3RndldPSnI1S1hwSHQxbktTYnA0TVplTU05NVNjQjZsQ09iCjB6OG1tV3lxcVhSbVBuZzNMM2lkZWxSSEt1YkNhZ2VrUURpTitHZnd1d296YjVsYStTdEtrNnQyeVUzR3Mxc2QKTHF2UGExTGZBQzFNNTRRWlVvMG5Rd3daeERnVVFCbkRGUWVvcUVQbnQ5c3Uwb2FoWjIyd1dCMDFDcUxlcWVTeApDb1JzU21DQXg2NXJheXJFQ1NOTnZOaFRBUWhiQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJSMGttMGQ5QTZaUXltS0dLQWVmeTY4eEF0di9qQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQlFyRExlU0tuWQp5QklaWFo0UEFBb2ZldzBSRTlId1JGckErYUZwN252NFZ0K3pUejFxb1QrVm9QejZUR0EwaWZabDc4S0QzbWpWCkR3bTdmaUNqaWRnSk56T216Skc5Slpsd3ltVHRJUTBOK2puYzNrbWI0U2tjRTB3cjN1aENGNlBCVk1ydUZPS3QKQlBhNnFSNkk3aEo1emJxaXhSUnBUNnM1eTRtOGhicGNTNTczWVJrcmpXMCtTVk96MnpvZ3pRQm9nQytTWVkrRAoyR0ZwNDRNallIeUxvYmU0U2JIUExFYmNwM0d3NE42T3pFUjJPQjhrcmV3VWNjQjZoNWNjZVpJdkQwWEpLckZ1ClJxaXl6c0NSK01BWWpMUVJ2YkE0T0ZRQ0h4VEY4VUZ1MUdERm1aaHEwc1ZUbDVFV21UTTZ4S1lQV3dCQTc2VUMKMThVWHQ1N1hKVTdmCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
+              "compute_config.#": "0",
+              "created_at": "2024-02-15T13:49:33Z",
+              "enabled_cluster_log_types.#": "3",
+              "enabled_cluster_log_types.0": "api",
+              "enabled_cluster_log_types.1": "audit",
+              "enabled_cluster_log_types.2": "authenticator",
+              "encryption_config.#": "1",
+              "encryption_config.0.provider.#": "1",
+              "encryption_config.0.provider.0.key_arn": "arn:aws:kms:us-east-1:123456789012:key/592c4134-01bd-4ab1-82eb-9c9824529375",
+              "encryption_config.0.resources.#": "1",
+              "encryption_config.0.resources.0": "secrets",
+              "endpoint": "https://268D6B7D70DA981CC57541081AB267AE.gr7.us-east-1.eks.amazonaws.com",
+              "id": "adserver1-prd",
+              "identity.#": "1",
+              "identity.0.oidc.#": "1",
+              "identity.0.oidc.0.issuer": "https://oidc.eks.us-east-1.amazonaws.com/id/268D6B7D70DA981CC57541081AB267AE",
+              "kubernetes_network_config.#": "1",
+              "kubernetes_network_config.0.elastic_load_balancing.#": "0",
+              "kubernetes_network_config.0.ip_family": "ipv4",
+              "kubernetes_network_config.0.service_ipv4_cidr": "172.20.0.0/16",
+              "kubernetes_network_config.0.service_ipv6_cidr": "",
+              "name": "adserver1-prd",
+              "outpost_config.#": "0",
+              "platform_version": "eks.23",
+              "remote_network_config.#": "0",
+              "role_arn": "arn:aws:iam::123456789012:role/prd-adserver1-prd-k8s-role",
+              "status": "ACTIVE",
+              "storage_config.#": "0",
+              "tags.%": "6",
+              "tags.Environment": "prd",
+              "tags.Owner": "Terraform",
+              "tags.Project": "adserver",
+              "tags.karpenter.sh/discovery/adserver1-prd": "owned",
+              "tags.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags.tf-state": "configuration/us-east-1/prd/adserver1-prd/eks",
+              "tags_all.%": "6",
+              "tags_all.Environment": "prd",
+              "tags_all.Owner": "Terraform",
+              "tags_all.Project": "adserver",
+              "tags_all.karpenter.sh/discovery/adserver1-prd": "owned",
+              "tags_all.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags_all.tf-state": "configuration/us-east-1/prd/adserver1-prd/eks",
+              "upgrade_policy.#": "1",
+              "upgrade_policy.0.support_type": "EXTENDED",
+              "version": "1.33",
+              "vpc_config.#": "1",
+              "vpc_config.0.cluster_security_group_id": "sg-0b4acf62caf932210",
+              "vpc_config.0.endpoint_private_access": "true",
+              "vpc_config.0.endpoint_public_access": "true",
+              "vpc_config.0.public_access_cidrs.#": "1",
+              "vpc_config.0.public_access_cidrs.0": "0.0.0.0/0",
+              "vpc_config.0.security_group_ids.#": "1",
+              "vpc_config.0.security_group_ids.0": "sg-0deedaa55b108dd70",
+              "vpc_config.0.subnet_ids.#": "3",
+              "vpc_config.0.subnet_ids.0": "subnet-0836817029577d368",
+              "vpc_config.0.subnet_ids.1": "subnet-0cec9bdb77e81cf37",
+              "vpc_config.0.vpc_id": "vpc-0f66b00d630fa0eae",
+              "zonal_shift_config.#": "0"
+            },
+            "meta": {
+              "schema_version": 1
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_eks_node_group.tfer--prd-adserver1-prd-main": {
+          "type": "aws_eks_node_group",
+          "depends_on": [],
+          "primary": {
+            "id": "adserver1-prd:prd-adserver1-prd-main",
+            "attributes": {
+              "ami_type": "AL2023_x86_64_STANDARD",
+              "arn": "arn:aws:eks:us-east-1:123456789012:nodegroup/adserver1-prd/prd-adserver1-prd-main/cacc7b07-67cf-b2de-0d70-93e15883284a",
+              "capacity_type": "ON_DEMAND",
+              "cluster_name": "adserver1-prd",
+              "disk_size": "200",
+              "id": "adserver1-prd:prd-adserver1-prd-main",
+              "instance_types.#": "1",
+              "instance_types.0": "c5.large",
+              "labels.%": "3",
+              "labels.Cluster": "adserver1-prd",
+              "labels.NodeGroup": "main",
+              "labels.ex.co/is_primary": "true",
+              "launch_template.#": "0",
+              "node_group_name": "prd-adserver1-prd-main",
+              "node_group_name_prefix": "",
+              "node_repair_config.#": "1",
+              "node_repair_config.0.enabled": "false",
+              "node_role_arn": "arn:aws:iam::123456789012:role/prd-adserver1-prd-main-role",
+              "release_version": "1.33.3-20250821",
+              "remote_access.#": "0",
+              "resources.#": "1",
+              "resources.0.autoscaling_groups.#": "1",
+              "resources.0.autoscaling_groups.0.name": "eks-prd-adserver1-prd-main-cacc7b07-67cf-b2de-0d70-93e15883284a",
+              "resources.0.remote_access_security_group_id": "",
+              "scaling_config.#": "1",
+              "scaling_config.0.desired_size": "3",
+              "scaling_config.0.max_size": "6",
+              "scaling_config.0.min_size": "1",
+              "status": "ACTIVE",
+              "subnet_ids.#": "3",
+              "subnet_ids.0": "subnet-0836817029577d368",
+              "subnet_ids.1": "subnet-0cec9bdb77e81cf37",
+              "tags.%": "8",
+              "tags.Cluster": "adserver1-prd",
+              "tags.Environment": "prd",
+              "tags.Name": "prd-adserver1-prd-main",
+              "tags.Owner": "Terraform",
+              "tags.Project": "adserver",
+              "tags.karpenter.sh/discovery/adserver1-prd": "owned",
+              "tags.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags.tf-state": "configuration/us-east-1/prd/adserver1-prd/eks",
+              "tags_all.%": "8",
+              "tags_all.Cluster": "adserver1-prd",
+              "tags_all.Environment": "prd",
+              "tags_all.Name": "prd-adserver1-prd-main",
+              "tags_all.Owner": "Terraform",
+              "tags_all.Project": "adserver",
+              "tags_all.karpenter.sh/discovery/adserver1-prd": "owned",
+              "tags_all.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags_all.tf-state": "configuration/us-east-1/prd/adserver1-prd/eks",
+              "taint.#": "0",
+              "update_config.#": "1",
+              "update_config.0.max_unavailable": "0",
+              "update_config.0.max_unavailable_percentage": "33",
+              "version": "1.33"
+            },
+            "meta": {
+              "schema_version": 0
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_vpc.tfer--vpc-0f66b00d630fa0eae": {
+          "type": "aws_vpc",
+          "depends_on": [],
+          "primary": {
+            "id": "vpc-0f66b00d630fa0eae",
+            "attributes": {
+              "arn": "arn:aws:ec2:us-east-1:123456789012:vpc/vpc-0f66b00d630fa0eae",
+              "assign_generated_ipv6_cidr_block": "false",
+              "cidr_block": "10.17.0.0/16",
+              "default_network_acl_id": "acl-0953d20804762a114",
+              "default_route_table_id": "rtb-0eccd8b4a9959bda1",
+              "default_security_group_id": "sg-0c699e6139a513790",
+              "dhcp_options_id": "dopt-9e20d5fb",
+              "enable_dns_hostnames": "true",
+              "enable_dns_support": "true",
+              "enable_network_address_usage_metrics": "true",
+              "id": "vpc-0f66b00d630fa0eae",
+              "instance_tenancy": "default",
+              "ipv6_association_id": "",
+              "ipv6_cidr_block": "",
+              "ipv6_cidr_block_network_border_group": "",
+              "ipv6_ipam_pool_id": "",
+              "ipv6_netmask_length": "0",
+              "main_route_table_id": "rtb-0eccd8b4a9959bda1",
+              "owner_id": "123456789012",
+              "tags.%": "11",
+              "tags.Environment": "prd",
+              "tags.Name": "adserver1-prd",
+              "tags.Owner": "Terraform",
+              "tags.Project": "adserver",
+              "tags.billing": "tweety",
+              "tags.tf-git-branch": "master",
+              "tags.tf-git-commit": "e364372ea8085f3669d9538536fcb96c8126e0a2",
+              "tags.tf-git-tree-state": "clean",
+              "tags.tf-last-modified-at": "20240215204413",
+              "tags.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags.tf-state": "configuration/us-east-1/prd/adserver1-prd/vpc",
+              "tags_all.%": "11",
+              "tags_all.Environment": "prd",
+              "tags_all.Name": "adserver1-prd",
+              "tags_all.Owner": "Terraform",
+              "tags_all.Project": "adserver",
+              "tags_all.billing": "tweety",
+              "tags_all.tf-git-branch": "master",
+              "tags_all.tf-git-commit": "e364372ea8085f3669d9538536fcb96c8126e0a2",
+              "tags_all.tf-git-tree-state": "clean",
+              "tags_all.tf-last-modified-at": "20240215204413",
+              "tags_all.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags_all.tf-state": "configuration/us-east-1/prd/adserver1-prd/vpc"
+            },
+            "meta": {
+              "schema_version": 1
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_subnet.tfer--subnet-0836817029577d368": {
+          "type": "aws_subnet",
+          "depends_on": [],
+          "primary": {
+            "id": "subnet-0836817029577d368",
+            "attributes": {
+              "arn": "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-0836817029577d368",
+              "assign_ipv6_address_on_creation": "false",
+              "availability_zone": "us-east-1a",
+              "availability_zone_id": "use1-az1",
+              "cidr_block": "10.17.0.0/19",
+              "customer_owned_ipv4_pool": "",
+              "enable_dns64": "false",
+              "enable_lni_at_device_index": "0",
+              "enable_resource_name_dns_a_record_on_launch": "false",
+              "enable_resource_name_dns_aaaa_record_on_launch": "false",
+              "id": "subnet-0836817029577d368",
+              "ipv6_cidr_block": "",
+              "ipv6_cidr_block_association_id": "",
+              "ipv6_native": "false",
+              "map_customer_owned_ip_on_launch": "false",
+              "map_public_ip_on_launch": "true",
+              "outpost_arn": "",
+              "owner_id": "123456789012",
+              "private_dns_hostname_type_on_launch": "ip-name",
+              "tags.%": "13",
+              "tags.Environment": "prd",
+              "tags.Name": "adserver1-prd-public-a",
+              "tags.Owner": "Terraform",
+              "tags.Project": "adserver",
+              "tags.billing": "tweety",
+              "tags.kubernetes.io/cluster/adserver1-prd": "owned",
+              "tags.kubernetes.io/role/elb": "1",
+              "tags.tf-git-branch": "master",
+              "tags.tf-git-commit": "e364372ea8085f3669d9538536fcb96c8126e0a2",
+              "tags.tf-git-tree-state": "clean",
+              "tags.tf-last-modified-at": "20240215204413",
+              "tags.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags.tf-state": "configuration/us-east-1/prd/adserver1-prd/vpc",
+              "tags_all.%": "13",
+              "tags_all.Environment": "prd",
+              "tags_all.Name": "adserver1-prd-public-a",
+              "tags_all.Owner": "Terraform",
+              "tags_all.Project": "adserver",
+              "tags_all.billing": "tweety",
+              "tags_all.kubernetes.io/cluster/adserver1-prd": "owned",
+              "tags_all.kubernetes.io/role/elb": "1",
+              "tags_all.tf-git-branch": "master",
+              "tags_all.tf-git-commit": "e364372ea8085f3669d9538536fcb96c8126e0a2",
+              "tags_all.tf-git-tree-state": "clean",
+              "tags_all.tf-last-modified-at": "20240215204413",
+              "tags_all.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags_all.tf-state": "configuration/us-east-1/prd/adserver1-prd/vpc",
+              "vpc_id": "vpc-0f66b00d630fa0eae"
+            },
+            "meta": {
+              "schema_version": 1
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_subnet.tfer--subnet-0cec9bdb77e81cf37": {
+          "type": "aws_subnet",
+          "depends_on": [],
+          "primary": {
+            "id": "subnet-0cec9bdb77e81cf37",
+            "attributes": {
+              "arn": "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-0cec9bdb77e81cf37",
+              "assign_ipv6_address_on_creation": "false",
+              "availability_zone": "us-east-1b",
+              "availability_zone_id": "use1-az2",
+              "cidr_block": "10.17.32.0/19",
+              "customer_owned_ipv4_pool": "",
+              "enable_dns64": "false",
+              "enable_lni_at_device_index": "0",
+              "enable_resource_name_dns_a_record_on_launch": "false",
+              "enable_resource_name_dns_aaaa_record_on_launch": "false",
+              "id": "subnet-0cec9bdb77e81cf37",
+              "ipv6_cidr_block": "",
+              "ipv6_cidr_block_association_id": "",
+              "ipv6_native": "false",
+              "map_customer_owned_ip_on_launch": "false",
+              "map_public_ip_on_launch": "true",
+              "outpost_arn": "",
+              "owner_id": "123456789012",
+              "private_dns_hostname_type_on_launch": "ip-name",
+              "tags.%": "13",
+              "tags.Environment": "prd",
+              "tags.Name": "adserver1-prd-public-b",
+              "tags.Owner": "Terraform",
+              "tags.Project": "adserver",
+              "tags.billing": "tweety",
+              "tags.kubernetes.io/cluster/adserver1-prd": "owned",
+              "tags.kubernetes.io/role/elb": "1",
+              "tags.tf-git-branch": "master",
+              "tags.tf-git-commit": "e364372ea8085f3669d9538536fcb96c8126e0a2",
+              "tags.tf-git-tree-state": "clean",
+              "tags.tf-last-modified-at": "20240215204413",
+              "tags.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags.tf-state": "configuration/us-east-1/prd/adserver1-prd/vpc",
+              "tags_all.%": "13",
+              "tags_all.Environment": "prd",
+              "tags_all.Name": "adserver1-prd-public-b",
+              "tags_all.Owner": "Terraform",
+              "tags_all.Project": "adserver",
+              "tags_all.billing": "tweety",
+              "tags_all.kubernetes.io/cluster/adserver1-prd": "owned",
+              "tags_all.kubernetes.io/role/elb": "1",
+              "tags_all.tf-git-branch": "master",
+              "tags_all.tf-git-commit": "e364372ea8085f3669d9538536fcb96c8126e0a2",
+              "tags_all.tf-git-tree-state": "clean",
+              "tags_all.tf-last-modified-at": "20240215204413",
+              "tags_all.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags_all.tf-state": "configuration/us-east-1/prd/adserver1-prd/vpc",
+              "vpc_id": "vpc-0f66b00d630fa0eae"
+            },
+            "meta": {
+              "schema_version": 1
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_security_group.tfer--prd-adserver1-prd-k8s-sg_sg-0deedaa55b108dd70": {
+          "type": "aws_security_group",
+          "depends_on": [],
+          "primary": {
+            "id": "sg-0deedaa55b108dd70",
+            "attributes": {
+              "arn": "arn:aws:ec2:us-east-1:123456789012:security-group/sg-0deedaa55b108dd70",
+              "description": "EKS cluster security group",
+              "egress.#": "0",
+              "id": "sg-0deedaa55b108dd70",
+              "ingress.#": "0",
+              "name": "prd-adserver1-prd-k8s-sg",
+              "name_prefix": "",
+              "owner_id": "123456789012",
+              "tags.%": "7",
+              "tags.Environment": "prd",
+              "tags.Name": "prd-adserver1-prd-k8s-sg",
+              "tags.Owner": "Terraform",
+              "tags.Project": "adserver",
+              "tags.karpenter.sh/discovery/adserver1-prd": "owned",
+              "tags.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags.tf-state": "configuration/us-east-1/prd/adserver1-prd/eks",
+              "tags_all.%": "7",
+              "tags_all.Environment": "prd",
+              "tags_all.Name": "prd-adserver1-prd-k8s-sg",
+              "tags_all.Owner": "Terraform",
+              "tags_all.Project": "adserver",
+              "tags_all.karpenter.sh/discovery/adserver1-prd": "owned",
+              "tags_all.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags_all.tf-state": "configuration/us-east-1/prd/adserver1-prd/eks",
+              "vpc_id": "vpc-0f66b00d630fa0eae"
+            },
+            "meta": {
+              "schema_version": 1
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_iam_role_policy_attachment.tfer--prd-adserver1-prd-k8s-role_AmazonEKSClusterPolicy": {
+          "type": "aws_iam_role_policy_attachment",
+          "depends_on": [],
+          "primary": {
+            "id": "prd-adserver1-prd-k8s-role/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+            "attributes": {
+              "id": "prd-adserver1-prd-k8s-role/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+              "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+              "role": "prd-adserver1-prd-k8s-role"
+            },
+            "meta": {
+              "schema_version": 0
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_iam_role_policy_attachment.tfer--prd-adserver1-prd-k8s-role_AmazonEKSVPCResourceController": {
+          "type": "aws_iam_role_policy_attachment",
+          "depends_on": [],
+          "primary": {
+            "id": "prd-adserver1-prd-k8s-role/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController",
+            "attributes": {
+              "id": "prd-adserver1-prd-k8s-role/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController",
+              "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController",
+              "role": "prd-adserver1-prd-k8s-role"
+            },
+            "meta": {
+              "schema_version": 0
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_iam_role_policy_attachment.tfer--prd-adserver1-prd-main-role_AmazonEC2ContainerRegistryReadOnly": {
+          "type": "aws_iam_role_policy_attachment",
+          "depends_on": [],
+          "primary": {
+            "id": "prd-adserver1-prd-main-role/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+            "attributes": {
+              "id": "prd-adserver1-prd-main-role/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+              "policy_arn": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+              "role": "prd-adserver1-prd-main-role"
+            },
+            "meta": {
+              "schema_version": 0
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_iam_role_policy_attachment.tfer--prd-adserver1-prd-main-role_AmazonEKSWorkerNodePolicy": {
+          "type": "aws_iam_role_policy_attachment",
+          "depends_on": [],
+          "primary": {
+            "id": "prd-adserver1-prd-main-role/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+            "attributes": {
+              "id": "prd-adserver1-prd-main-role/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+              "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+              "role": "prd-adserver1-prd-main-role"
+            },
+            "meta": {
+              "schema_version": 0
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_kms_key.tfer--592c4134-01bd-4ab1-82eb-9c9824529375": {
+          "type": "aws_kms_key",
+          "depends_on": [],
+          "primary": {
+            "id": "592c4134-01bd-4ab1-82eb-9c9824529375",
+            "attributes": {
+              "arn": "arn:aws:kms:us-east-1:123456789012:key/592c4134-01bd-4ab1-82eb-9c9824529375",
+              "custom_key_store_id": "",
+              "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+              "description": "Encryption key for adserver1-prd k8s cluster in prd",
+              "enable_key_rotation": "true",
+              "id": "592c4134-01bd-4ab1-82eb-9c9824529375",
+              "is_enabled": "true",
+              "key_id": "592c4134-01bd-4ab1-82eb-9c9824529375",
+              "key_usage": "ENCRYPT_DECRYPT",
+              "multi_region": "false",
+              "policy": "{\"Statement\":[{\"Action\":\"kms:*\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:user/_sinai_programmatic\"},\"Resource\":\"*\",\"Sid\":\"KeyOwner\"},{\"Action\":[\"kms:Update*\",\"kms:UntagResource\",\"kms:TagResource\",\"kms:ScheduleKeyDeletion\",\"kms:Revoke*\",\"kms:Put*\",\"kms:List*\",\"kms:Get*\",\"kms:Enable*\",\"kms:Disable*\",\"kms:Describe*\",\"kms:Delete*\",\"kms:Create*\",\"kms:CancelKeyDeletion\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"arn:aws:iam::123456789012:role/okta_admin\",\"arn:aws:iam::123456789012:user/_sinai_programmatic\"]},\"Resource\":\"*\",\"Sid\":\"KeyAdministration\"},{\"Action\":[\"kms:ReEncrypt*\",\"kms:GenerateDataKey*\",\"kms:Encrypt\",\"kms:DescribeKey\",\"kms:Decrypt\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"arn:aws:iam::123456789012:role/okta_admin\",\"arn:aws:iam::123456789012:user/_sinai_programmatic\",\"arn:aws:iam::123456789012:role/prd-adserver1-prd-k8s-role\"]},\"Resource\":\"*\",\"Sid\":\"KeyUsage\"},{\"Action\":[\"kms:RevokeGrant\",\"kms:ListGrants\",\"kms:CreateGrant\"],\"Condition\":{\"Bool\":{\"kms:GrantIsForAWSResource\":\"true\"}},\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"arn:aws:iam::123456789012:role/okta_admin\",\"arn:aws:iam::123456789012:user/_sinai_programmatic\"]},\"Resource\":\"*\",\"Sid\":\"KeyServiceUsage\"}],\"Version\":\"2012-10-17\"}",
+              "rotation_period_in_days": "365",
+              "tags.%": "6",
+              "tags.Environment": "prd",
+              "tags.Owner": "Terraform",
+              "tags.Project": "adserver",
+              "tags.karpenter.sh/discovery/adserver1-prd": "owned",
+              "tags.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags.tf-state": "configuration/us-east-1/prd/adserver1-prd/eks",
+              "tags_all.%": "6",
+              "tags_all.Environment": "prd",
+              "tags_all.Owner": "Terraform",
+              "tags_all.Project": "adserver",
+              "tags_all.karpenter.sh/discovery/adserver1-prd": "owned",
+              "tags_all.tf-last-modified-by": "arn:aws:iam::123456789012:user/_sinai_programmatic",
+              "tags_all.tf-state": "configuration/us-east-1/prd/adserver1-prd/eks",
+              "xks_key_id": ""
+            },
+            "meta": {
+              "schema_version": 0
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_kms_alias.tfer--alias-002F-eks-002F-adserver1-prd": {
+          "type": "aws_kms_alias",
+          "depends_on": [],
+          "primary": {
+            "id": "alias/eks/adserver1-prd",
+            "attributes": {
+              "arn": "arn:aws:kms:us-east-1:123456789012:alias/eks/adserver1-prd",
+              "id": "alias/eks/adserver1-prd",
+              "name": "alias/eks/adserver1-prd",
+              "name_prefix": "",
+              "target_key_arn": "arn:aws:kms:us-east-1:123456789012:key/592c4134-01bd-4ab1-82eb-9c9824529375",
+              "target_key_id": "592c4134-01bd-4ab1-82eb-9c9824529375"
+            },
+            "meta": {
+              "schema_version": 0
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_s3_bucket.tfer--ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5": {
+          "type": "aws_s3_bucket",
+          "depends_on": [],
+          "primary": {
+            "id": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5",
+            "attributes": {
+              "acceleration_status": "",
+              "acl": "private",
+              "arn": "arn:aws:s3:::ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5",
+              "bucket": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5",
+              "bucket_domain_name": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5.s3.amazonaws.com",
+              "bucket_prefix": "",
+              "bucket_regional_domain_name": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5.s3.us-east-1.amazonaws.com",
+              "cors_rule.#": "0",
+              "force_destroy": "false",
+              "grant.#": "1",
+              "grant.0.id": "6fdebf8a4de485b31e544e3565f880506c5f035bfe724fa33520521ea80e327d",
+              "grant.0.permissions.#": "1",
+              "grant.0.permissions.0": "FULL_CONTROL",
+              "grant.0.type": "CanonicalUser",
+              "grant.0.uri": "",
+              "hosted_zone_id": "Z3AQBSTGFYJSTF",
+              "id": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5",
+              "lifecycle_rule.#": "0",
+              "logging.#": "0",
+              "object_lock_configuration.#": "0",
+              "object_lock_enabled": "false",
+              "policy": "{\"Version\":\"2008-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:*\",\"Resource\":[\"arn:aws:s3:::ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5/*\",\"arn:aws:s3:::ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5\"],\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}}}]}",
+              "region": "us-east-1",
+              "replication_configuration.#": "0",
+              "request_payer": "BucketOwner",
+              "server_side_encryption_configuration.#": "1",
+              "server_side_encryption_configuration.0.rule.#": "1",
+              "server_side_encryption_configuration.0.rule.0.apply_server_side_encryption_by_default.#": "1",
+              "server_side_encryption_configuration.0.rule.0.apply_server_side_encryption_by_default.0.kms_master_key_id": "",
+              "server_side_encryption_configuration.0.rule.0.apply_server_side_encryption_by_default.0.sse_algorithm": "AES256",
+              "server_side_encryption_configuration.0.rule.0.bucket_key_enabled": "false",
+              "tags.%": "1",
+              "tags.STAGE": "production",
+              "tags_all.%": "1",
+              "tags_all.STAGE": "production",
+              "versioning.#": "1",
+              "versioning.0.enabled": "false",
+              "versioning.0.mfa_delete": "false",
+              "website.#": "0"
+            },
+            "meta": {
+              "schema_version": 0
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        },
+        "aws_s3_bucket_policy.tfer--ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5": {
+          "type": "aws_s3_bucket_policy",
+          "depends_on": [],
+          "primary": {
+            "id": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5",
+            "attributes": {
+              "bucket": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5",
+              "id": "ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5",
+              "policy": "{\"Statement\":[{\"Action\":\"s3:*\",\"Condition\":{\"Bool\":{\"aws:SecureTransport\":\"false\"}},\"Effect\":\"Deny\",\"Principal\":\"*\",\"Resource\":[\"arn:aws:s3:::ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5/*\",\"arn:aws:s3:::ad-server-frequency-cappi-serverlessdeploymentbuck-ejatrrd0o9w5\"]}],\"Version\":\"2008-10-17\"}"
+            },
+            "meta": {
+              "schema_version": 0
+            },
+            "tainted": false
+          },
+          "deposed": [],
+          "provider": "provider.aws"
+        }
+      },
+      "depends_on": []
+    }
+  ]
+}
