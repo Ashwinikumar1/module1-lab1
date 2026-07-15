@@ -163,11 +163,41 @@ resource "google_cloud_run_v2_service_iam_member" "frontend_iap_invoker" {
   member   = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-iap.iam.gserviceaccount.com"
 }
 
+# Cloud Run App Service (Europe Region)
+resource "google_cloud_run_v2_service" "app_europe" {
+  name     = "hr-vacation-app-europe"
+  location = "europe-west1"
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+
+  template {
+    containers {
+      image = "${var.region}-docker.pkg.dev/${local.project_id}/${google_artifact_registry_repository.app_repo.repository_id}/app:latest"
+      ports {
+        container_port = 8080
+      }
+      env {
+        name  = "DB_WRITE_HOST"
+        value = "write-db.hr-vacation.internal"
+      }
+      env {
+        name  = "DB_READ_HOST"
+        value = "read-db.hr-vacation.internal"
+      }
+    }
+
+    # Enforce routing outbound traffic through Serverless VPC Connector
+    vpc_access {
+      connector = google_vpc_access_connector.vpc_connector.id
+      egress    = "ALL_TRAFFIC"
+    }
+  }
+}
+
 # -------------------------------------------------------------
 # 5. GLOBAL EXTERNAL LOAD BALANCER (GCLB) WITH IAP
 # -------------------------------------------------------------
 
-# Serverless NEG (Network Endpoint Group) targeting the Cloud Run Frontend
+# Primary US Serverless Network Endpoint Group
 resource "google_compute_region_network_endpoint_group" "serverless_neg" {
   name                  = "hr-vacation-neg"
   network_endpoint_type = "SERVERLESS"
@@ -177,21 +207,92 @@ resource "google_compute_region_network_endpoint_group" "serverless_neg" {
   }
 }
 
-# Backend Service for GCLB with IAP enabled
+# Secondary Europe Serverless Network Endpoint Group
+resource "google_compute_region_network_endpoint_group" "serverless_neg_europe" {
+  name                  = "hr-vacation-neg-europe"
+  network_endpoint_type = "SERVERLESS"
+  region                = "europe-west1"
+  cloud_run {
+    service = google_cloud_run_v2_service.app_europe.name
+  }
+}
+
+# Backend Service for GCLB with IAP and Multi-Region Anycast Routing enabled
 resource "google_compute_backend_service" "backend_service" {
   name                  = "hr-vacation-backend-service"
   protocol              = "HTTP"
   port_name             = "http"
   load_balancing_scheme = "EXTERNAL_MANAGED"
 
+  # Primary US Backend
   backend {
     group = google_compute_region_network_endpoint_group.serverless_neg.id
+  }
+
+  # Failover / Latency-Optimized Europe Backend
+  backend {
+    group = google_compute_region_network_endpoint_group.serverless_neg_europe.id
   }
 
   iap {
     oauth2_client_id     = var.iap_client_id
     oauth2_client_secret = var.iap_client_secret
   }
+}
+
+# -------------------------------------------------------------
+# 6. ALLOYDB SECONDARY REPLICATION & PRIVATE DNS ABSTRACTION
+# -------------------------------------------------------------
+
+# AlloyDB Secondary DR Cluster in europe-west1
+resource "google_alloydb_cluster" "secondary" {
+  cluster_id   = "hr-vacation-cluster-secondary"
+  location     = "europe-west1"
+  cluster_type = "SECONDARY"
+
+  network_config {
+    network = google_compute_network.vpc_network.id
+  }
+
+  secondary_config {
+    primary_cluster_name = "projects/${local.project_id}/locations/${var.region}/clusters/hr-vacation-cluster-primary"
+  }
+
+  deletion_protection = false
+}
+
+# Secondary replica instance in europe-west1
+resource "google_alloydb_instance" "secondary_instance" {
+  cluster       = google_alloydb_cluster.secondary.name
+  instance_id   = "hr-vacation-secondary-instance"
+  instance_type = "SECONDARY"
+
+  machine_config {
+    cpu_count = 2
+  }
+}
+
+# Private Cloud DNS Zone
+resource "google_dns_managed_zone" "private_zone" {
+  name        = "hr-vacation-private-zone"
+  dns_name    = "hr-vacation.internal."
+  description = "Private internal DNS zone for database failover abstraction"
+  visibility  = "private"
+
+  private_visibility_config {
+    networks {
+      network_url = google_compute_network.vpc_network.id
+    }
+  }
+}
+
+# Map DB_WRITE_HOST: write-db.hr-vacation.internal -> Primary AlloyDB IP
+resource "google_dns_record_set" "write_dns" {
+  name         = "write-db.hr-vacation.internal."
+  managed_zone = google_dns_managed_zone.private_zone.name
+  type         = "A"
+  ttl          = 60
+  rrdatas      = [google_sql_database_instance.postgres.private_ip_address]
 }
 
 # Global URL Map mapping GCLB incoming paths to the serverless backend
