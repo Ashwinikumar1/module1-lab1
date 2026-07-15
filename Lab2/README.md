@@ -8,9 +8,9 @@
 
 ## 📖 Overview & Problem Statement
 
-In this lab, you assume the role of a Cloud Solutions Architect assisting **Cymbal Group** in migrating their core **AdServer Production Workload** (`adserver1-prd`) from AWS to Google Cloud Platform. 
+In this lab, you assume the role of a Lead Platform Cloud Engineer assisting **Cymbal Group** (specifically supporting **Cymbal Direct** & **Cymbal Shops** within the Cymbal Retail ecosystem) in migrating their core, high-throughput **AdServer Production Workload** (`adserver1-prd`) from AWS to Google Cloud Platform. 
 
-You are provided with the customer's production AWS environment export file (`data/aws_environment.json`). Your mission is to map all core infrastructure components to GCP native equivalents, author production-ready Terraform code (`terraform/main.tf`) complying with strict **Altostrat Organization Security Policies**, deploy the infrastructure, and validate the deployment using an automated test framework (`terraform/verify.sh`).
+As digital retail demand rapidly grows across Cymbal Shops and Cymbal Superstore, the legacy AWS infrastructure presents severe security non-compliance risks under corporate **Altostrat Organization** policies, operational overhead, and high total cost of ownership. You are provided with the customer's production AWS state export (`data/aws_environment.json`). Your mission is to use Agentic AI tools to inspect the legacy topology, map primitives to GCP native equivalents, author production-ready Terraform code (`terraform/main.tf`) complying with strict Altostrat Org Policies, deploy the infrastructure, pass an automated verification suite (`terraform/verify.sh`), and generate an executive business proposal using Migration Center AI.
 
 ---
 
@@ -22,6 +22,7 @@ You are provided with the customer's production AWS environment export file (`da
   - Resolve `constraints/compute.requireShieldedVm` by configuring Shielded VM instance specs with Secure Boot (`enable_secure_boot = true`).
   - Configure Service Agent KMS permissions (`roles/cloudkms.cryptoKeyEncrypterDecrypter`) for GKE and Cloud Storage.
 - **Infrastructure Automation & Validation**: Initialize, plan, and apply Terraform templates, and run automated verification scoring scripts.
+- **Executive Business Proposal Synthesis**: Leverage GCP Migration Center AI tools and Agentic AI workflows to deliver executive business migration artifacts.
 
 ---
 

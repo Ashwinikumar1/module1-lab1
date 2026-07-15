@@ -8,46 +8,70 @@
 
 ---
 
-## 🎯 Lab Summary & Learning Objectives
+## 🏢 Challenge Scenario & Context
 
-In this **Challenge Lab**, you will master the use of **Agentic AI tools** (such as VS Code Antigravity IDE, Antigravity CLI, Google Agent Skills, and MCP) to accelerate enterprise cloud migration scenarios. 
+You are a Lead Platform Cloud Engineer consulting for the **AdServer Production Migration Team** at **Cymbal Group**.
 
-You will analyze an existing Amazon Web Services (AWS) environment export (`aws_environment.json`) provided by the customer via email, generate a cross-cloud mapping comparison, produce logical architecture diagrams, write org-policy compliant GCP Terraform code, deploy the reference infrastructure to Google Cloud, and generate an executive business proposal using Migration Center AI capabilities.
+### Corporate Context & Demo Brand Ecosystem
+**Cymbal Group** is a global conglomerate operating a diverse multi-brand ecosystem spanning three core business verticals:
+* 🛒 **Retail**: **Cymbal Direct**, **Cymbal Shops**, and **Cymbal Superstore**
+* 🏥 **Healthcare**: **Cymbal Labs** and **Cymbal Health**
+* 🏦 **Financial Services & Insurance (FSI)**: **Cymbal Bank**, **Cymbal Investments**, **Cymbal Fintech**, and **Cymbal Insurance**
 
-### By completing this lab, you will learn how to:
-1. **Leverage Agentic AI Tools for Migration Discovery**: Use natural language prompts and MCP skills to parse `aws_environment.json` and extract AWS primitives (EC2 `c5.large`, EKS Cluster `adserver1-prd`, CloudWatch, S3 buckets, and KMS keys).
-2. **Generate Cross-Cloud Comparisons & Diagrams**: Prompt your Agentic AI assistant to generate structured AWS-to-GCP technical mapping matrices, logical architecture diagrams, and TCO/value proposition documents.
-3. **Generate Org-Policy Compliant GCP Terraform**: Produce modular Terraform code that strictly adheres to **Altostrat Organization Security Policies** (`constraints/compute.vmExternalIpAccess` requiring private GKE nodes & `constraints/compute.requireShieldedVm` requiring Secure Boot).
-4. **Deploy & Validate GCP Reference Architecture**: Imperatively deploy the generated Terraform infrastructure to Google Cloud and pass automated verification scoring (`verify.sh`).
-5. **Generate Tailored Proposals with Migration Center AI**: Utilize GCP Console Migration Center AI features to generate an executive business proposal.
+Your consulting engagement focuses directly on **Cymbal Direct** and **Cymbal Shops**—the flagship e-commerce and retail advertising ecosystem responsible for serving real-time targeted promotions, personalized product ads, and dynamic search monetization to millions of active retail shoppers across global storefronts.
+
+### Problem Identification & Migration Imperative
+Cymbal Direct's core high-throughput ad-serving backend platform (`adserver1-prd`) currently runs on legacy Amazon Web Services (AWS) infrastructure. As digital retail demand rapidly scales across Cymbal Shops and Cymbal Superstore, the engineering leadership faces three critical operational bottlenecks on AWS:
+1. **Security & Governance Non-Compliance**: The legacy AWS topology uses public cluster nodes and un-restricted key policies that violate strict Zero-Trust governance mandates. Under the corporate **Altostrat Organization** security standards, all production container workloads must enforce absolute network isolation (private GKE nodes only), hardware-rooted boot integrity (Shielded VMs with Secure Boot enabled), and service-agent restricted encryption key bindings.
+2. **High Operating Costs & Fragmented IAM**: Running non-optimized EC2 instances (`c5.large`) and separate AWS KMS access controls without centralized cloud management increases operational overhead and inflates monthly TCO.
+3. **Container Scalability & Security Risks**: The existing AWS EKS cluster (`adserver1-prd`) lacks the automated node protection and zero-trust perimeter needed to securely handle peak traffic during global sales campaigns without exposing backend data stores.
+
+To eliminate these risks, Cymbal Group leadership has mandated a complete platform modernization to **Google Cloud Platform (GCP)** to achieve lower ad latency, unified Cloud KMS protection, mandatory Zero-Trust infrastructure security, and cost optimization.
+
+Over email, the customer engineering team has provided a complete JSON export of their active AWS environment (`aws_environment.json`), which has been loaded into your lab environment at `Lab2/data/aws_environment.json`.
 
 ---
 
-## 🏢 Challenge Scenario: Cymbal Group AdServer Production Migration
+## 🎯 Lab Summary & Learning Objectives
 
-You are a Lead Platform Cloud Engineer consulting for the **AdServer Production Migration Team** at **Cymbal Group**. Over email, the customer engineering team has provided a JSON dump of their active Amazon Web Services (AWS) environment (`aws_environment.json`), which has been loaded into your lab environment at `Lab2/data/aws_environment.json`.
+In this **Challenge Lab**, you will master the use of **Agentic AI tools** (such as VS Code Antigravity IDE, Antigravity CLI, Google Agent Skills, and MCP) to accelerate enterprise cloud migration workflows. 
 
-```json
-{
-    "version": 3,
-    "terraform_version": "0.12.31",
-    "serial": 1,
-    "lineage": "78d0e957-f85d-7abf-764b-15d8988cfb23",
-    "modules": [
-        {
-            "path": [ "root" ],
-            "outputs": {
-                "aws_eks_cluster_tfer--adserver1-prd_id": {
-                    "sensitive": false,
-                    "type": "string",
-                    "value": "adserver1-prd"
-                }
-...
+### Integrated Learning Objectives:
+Throughout this lab, you will combine and execute the following core learning objectives within the Cymbal Group migration storyline:
+1. **Leverage Agentic AI Tools for AWS Discovery**: Prompt AI subagents to parse `Lab2/data/aws_environment.json` and extract legacy AWS primitives (VPC `10.17.0.0/16`, EC2 `c5.large`, EKS Cluster `adserver1-prd`, S3 deployment buckets, and KMS keys).
+2. **Translate Cross-Cloud Architecture & Produce Deliverables**: Use natural language and Agentic tools to map legacy AWS primitives to GCP native equivalents, generate logical "As-Is" vs. "To-Be" architecture diagrams, and compile TCO value proposition reports.
+3. **Generate Reference Set of Org-Policy Compliant GCP Terraform Code**: Produce modular Terraform configuration in `Lab2/terraform/` that strictly satisfies **Altostrat Organization Security Policies**:
+   - `constraints/compute.vmExternalIpAccess` (Mandatory private GKE cluster nodes via `enable_private_nodes = true`).
+   - `constraints/compute.requireShieldedVm` (Mandatory Secure Boot via `enable_secure_boot = true`).
+   - Service Agent Cloud KMS IAM role bindings (`roles/cloudkms.cryptoKeyEncrypterDecrypter`) for GKE and GCS.
+4. **Deploy GCP Reference Infrastructure & Pass Lab Verification**: Provision the target GCP infrastructure using Terraform. Validation and scoring are conducted automatically by the lab platform runner via `verify.sh` to evaluate 100/100 points across 5 checkpoints.
+5. **Formulate Tailored Executive Proposal via Migration Center AI**: Utilize GCP Console Migration Center AI features and Agentic prompts to synthesize a customized business proposal for Cymbal Group leadership.
+
+---
+
+## 📋 General Overview of Lab Steps
+
+Learners will follow a structured 5-task workflow to complete the migration project:
+
+```
+[Task 1: AI AWS Discovery] ➔ [Task 2: Technical Artifacts] ➔ [Task 3: Generate Terraform IaC] ➔ [Task 4: Deploy & Lab Verification] ➔ [Task 5: Migration Center AI Proposal]
 ```
 
-The Cymbal Group leadership team wants to migrate their ad-serving infrastructure to Google Cloud Platform to achieve better performance, zero-trust container security, and cost optimization. 
-
-Your mission is to use Agentic AI tools to understand their AWS topology, translate it into an equivalent production-grade GCP architecture, write and deploy the compliant Terraform code, and prepare executive business proposal artifacts.
+1. **Task 1: Analyze AWS Infrastructure Baseline via Agentic AI**
+   - Inspect `Lab2/data/aws_environment.json` using AI prompts.
+   - Extract VPC CIDR blocks, EKS cluster configurations, compute node specs, and storage/KMS keys.
+2. **Task 2: Generate Cross-Cloud Mapping & Technical Architecture Artifacts**
+   - Create standard AWS-to-GCP technical comparison matrices.
+   - Produce GFM/Mermaid logical architecture diagrams illustrating legacy AWS "As-Is" vs target GCP "To-Be" perimeters.
+   - Draft executive value proposition and TCO analysis reports.
+3. **Task 3: Generate Reference Set of Org-Policy Compliant GCP Terraform Code**
+   - Author production-ready Terraform configurations (`main.tf`, `variables.tf`) in `Lab2/terraform/`.
+   - Enforce Private GKE Nodes, Shielded VM Secure Boot, and KMS IAM service agent grants meeting Altostrat Org constraints.
+4. **Task 4: Deploy Reference GCP Architecture to Google Cloud**
+   - Initialize and apply the generated Terraform plan (`terraform init`, `terraform apply`).
+   - **Lab Verification & Scoring**: Automated verification script (`verify.sh`) is executed by the lab platform creator to validate deployed GCP infrastructure and assign 100 scoring points.
+5. **Task 5: Synthesize Tailored Business Proposal via Migration Center AI**
+   - Access GCP Console Migration Center and invoke AI prompt capabilities to generate an executive migration proposal for Cymbal Group leadership.
 
 ---
 
@@ -82,53 +106,64 @@ Use your Agentic AI IDE or CLI to inspect and summarize `Lab2/data/aws_environme
 
 ---
 
-### Task 2: Generate Cross-Cloud Mapping & Technical Artifacts
+### Task 2: Generate Cross-Cloud Mapping & Technical Deliverables
 
-Use your Agentic AI assistant to create standard technical comparison documents for Cymbal Group leadership.
+Use your Agentic AI assistant to create standard technical comparison documents and diagrams for Cymbal Group leadership.
 
 #### Required Deliverable Documents:
-1. **Resource Mapping Comparison**: Map AWS primitives to GCP equivalents:
+1. **Resource Group Mapping Comparison**: Document a comprehensive comparison mapping each AWS resource group primitive to its GCP equivalent:
    - AWS VPC ➔ GCP Private VPC (`google_compute_network`) & Custom Subnets (`google_compute_subnetwork`).
    - AWS EKS Cluster ➔ GCP GKE Standard Private Cluster (`google_container_cluster`).
    - AWS EC2 `c5.large` ➔ GCP Compute Engine `c2-standard-4` / Node Pool.
    - AWS S3 Bucket ➔ GCP Cloud Storage Bucket (`google_storage_bucket`) with Uniform Bucket-Level Access.
    - AWS KMS Key ➔ GCP Cloud KMS Key Ring & Crypto Key (`google_kms_crypto_key`).
-2. **Logical Architecture Diagrams**: Architectural diagrams illustrating AWS "as-is" vs GCP "to-be".
-3. **Value Proposition & TCO Analysis**: Executive document explaining GCP security (Shielded VMs, Private GKE), cost advantages, and unified IAM.
+2. **Logical Architecture Diagrams**: Produce logical architectural diagrams illustrating both the legacy AWS "As-Is" topology and the modern GCP "To-Be" architecture.
+3. **Value Proposition & TCO Analysis**: Draft an executive document detailing why the proposed GCP solution provides superior zero-trust security (Shielded VMs, Private GKE), lower latency, and greater cost effectiveness.
 
 ---
 
-### Task 3: Generate & Apply Org-Policy Compliant GCP Terraform
+### Task 3: Generate Reference Set of Org-Policy Compliant GCP Terraform Code
 
-Generate modular Terraform code in `Lab2/terraform/` meeting all Altostrat organization security rules.
+Using your Agentic AI assistant, generate a complete reference set of production-grade, modular Terraform code in `Lab2/terraform/` that complies with all Altostrat organization security rules.
 
-#### Step 3.1: Initialize & Configure Environment
+#### Infrastructure Specifications to Include in `main.tf`:
+- **VPC & Subnets**: Custom VPC network with private subnets in `us-east1`.
+- **Private GKE Cluster**: Cluster `adserver1-prd` with `private_cluster_config { enable_private_nodes = true }`.
+- **Shielded VM Node Pool**: Node pool `prd-adserver1-prd-main` configured with `shielded_instance_config { enable_secure_boot = true, enable_integrity_monitoring = true }`.
+- **KMS Encrypted Storage**: Bucket `ad-server-frequency-cappi-deployment-${PROJECT_ID}` with uniform access and Cloud KMS customer-managed key encryption.
+- **Service Agent IAM Bindings**: Explicit `google_kms_crypto_key_iam_member` resources granting `roles/cloudkms.cryptoKeyEncrypterDecrypter` to GKE and GCS service agents.
+
+---
+
+### Task 4: Deploy Reference GCP Infrastructure to Google Cloud
+
+Deploy the generated GCP reference configuration to Google Cloud.
+
+#### Step 4.1: Initialize & Configure Environment
 ```bash
 cd Lab2/terraform
 export PROJECT_ID=$(gcloud config get-value project)
 gcloud auth application-default login
 ```
 
-#### Step 3.2: Review & Apply Terraform Code
+#### Step 4.2: Apply Terraform Code
 ```bash
 terraform init
 terraform plan -var="gcp_project_id=${PROJECT_ID}" -var="gcp_region=us-east1"
 terraform apply -var="gcp_project_id=${PROJECT_ID}" -var="gcp_region=us-east1" -auto-approve
 ```
-*Note: GKE private cluster provisioning takes approximately 8-10 minutes.*
+*Note: Provisioning the private GKE cluster takes approximately 8-10 minutes.*
 
----
-
-### Task 4: Run Automated Verification & Validation Suite
-
-Run the automated grader script [verify.sh](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab2/terraform/verify.sh) to test all 5 evaluation checkpoints:
+#### Step 4.3: Automated Lab Verification & Scoring (Lab Creator Verification)
+Once deployment is complete, the automated lab grading platform (lab creator runner) executes `verify.sh` to validate the environment and assign lab points:
 
 ```bash
+# Executed by Lab Creator / Automated Grading System
 cd Lab2/terraform
 bash verify.sh
 ```
 
-#### Verification Checkpoints (100 Points):
+##### Verification Checkpoints (100 Points Total):
 - [ ] **[1/5] GKE Cluster Status**: `adserver1-prd` in status `RUNNING` (20 Points).
 - [ ] **[2/5] GKE Node Pool**: `prd-adserver1-prd-main` with Shielded VM Secure Boot enabled (20 Points).
 - [ ] **[3/5] VPC Subnets**: Subnets `adserver1-prd-subnet-a` & `subnet-b` active in private network (20 Points).
@@ -139,7 +174,7 @@ bash verify.sh
 
 ### Task 5: Generate Tailored Proposal via Migration Center AI
 
-Use GCP Console Migration Center AI tools or Agentic prompts to generate a custom business proposal for Cymbal Group:
+Use GCP Console Migration Center AI tools or Agentic prompts to generate a custom executive business proposal for Cymbal Group leadership:
 1. Navigate to **GCP Console ➔ Migration Center**.
 2. Run AI proposal generator or prompt Agentic assistant:
    > *"Generate an executive migration business proposal for Cymbal Group detailing modernizing AWS adserver1-prd to GCP GKE Private Cluster with Cloud KMS encryption."*
@@ -157,3 +192,4 @@ Use GCP Console Migration Center AI tools or Agentic prompts to generate a custo
 
 ---
 *End of Lab 2 Challenge Lab Guide.*
+
