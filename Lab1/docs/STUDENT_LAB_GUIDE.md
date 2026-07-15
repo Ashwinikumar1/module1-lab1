@@ -63,15 +63,17 @@ You are consulting for **Cymbal Group's Enterprise Architecture Division**. Thei
 
 ### Task 1: Workload Discovery & Baseline Architecture
 
-Analyze the brownfield codebase under `Lab1/ce-sample-hr-vacation` using your Agentic AI IDE.
+Use your Agentic AI IDE to analyze the brownfield codebase under `Lab1/ce-sample-hr-vacation`.
 
-1. **Prompt Agentic IDE**:
-   ```text
-   Inspect the codebase and IaC under Lab1/ce-sample-hr-vacation. Identify active GCP services, network boundaries, and single-region dependencies.
-   ```
-2. **Generate Baseline Documentation Artifacts**:
-   - `docs/baseline_summary.md`: Description of single-region GCP services and SPOF risks.
-   - `docs/baseline_architecture.mermaid`: Mermaid flowchart depicting initial single-region flow.
+> [!NOTE]
+> **🤖 AI Pair-Programming Prompt**:
+> ```text
+> Inspect the application codebase and infrastructure templates under Lab1/ce-sample-hr-vacation. 
+> Identify active GCP services, networking boundaries, database connections, and single-region dependencies. 
+> Create two output files in the docs/ directory:
+> 1. docs/baseline_summary.md: Describing single-region GCP services, dependencies, and SPOF risks.
+> 2. docs/baseline_architecture.mermaid: A Mermaid flowchart depicting the baseline single-region architecture.
+> ```
 
 *Note: We will share what good looks like during verification.*
 
@@ -81,14 +83,18 @@ Analyze the brownfield codebase under `Lab1/ce-sample-hr-vacation` using your Ag
 
 ### Task 2: Customer Requirements Analysis & Blueprinting
 
+Ingest customer feedback to design the target multi-region architecture.
+
 1. Open and inspect [docs/customer_requirements.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab1/docs/customer_requirements.md).
-2. **Prompt Agentic IDE**:
-   ```text
-   Analyze docs/customer_requirements.md and extract latency, availability, and multi-region routing mandates into a structured enhancement plan.
-   ```
-3. **Generate Target Architecture Artifacts**:
-   - `docs/updated_summary.md`: Multi-region architecture specification.
-   - `docs/updated_architecture.mermaid`: Target dual-region Anycast topology diagram.
+2. **AI Prompt Instructions**:
+   > [!NOTE]
+   > **🤖 AI Pair-Programming Prompt**:
+   > ```text
+   > Read docs/customer_requirements.md. Extract Cymbal Group's latency, availability, caching, and multi-region routing mandates.
+   > Generate two target artifacts in the docs/ directory:
+   > 1. docs/updated_summary.md: A technical specification detailing cross-region database replication, multi-region Firestore, Redis caching, and GCLB Anycast routing.
+   > 2. docs/updated_architecture.mermaid: A Mermaid diagram showing symmetric dual-region Cloud Run services and Anycast global load balancing.
+   > ```
 
 > 🤖 **Scoring Check 2**: LLM Judge validates `updated_summary.md` and `updated_architecture.mermaid` match customer specs by **≥80%**.
 
@@ -96,128 +102,66 @@ Analyze the brownfield codebase under `Lab1/ce-sample-hr-vacation` using your Ag
 
 ### Task 3: Upgrading to Multi-Region Load Balancing (Steps 1–3)
 
-#### Step 1: Declare European Cloud Run App Service
-In `terraform/main.tf`, declare `app_europe` in `europe-west1`:
-```hcl
-resource "google_cloud_run_v2_service" "app_europe" {
-  name     = "hr-vacation-app-europe"
-  location = "europe-west1"
-  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+Use your Agentic AI IDE to generate and refactor your Terraform configuration in `terraform/main.tf`.
 
-  template {
-    containers {
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.app_repo.repository_id}/app:latest"
-      ports {
-        container_port = 8080
-      }
-      env {
-        name  = "DB_WRITE_HOST"
-        value = "write-db.hr-vacation.internal"
-      }
-      env {
-        name  = "DB_READ_HOST"
-        value = "read-db.hr-vacation.internal"
-      }
-      env {
-        name  = "DB_PASS"
-        value = random_password.alloydb_password.result
-      }
-    }
-    vpc_access {
-      connector = google_vpc_access_connector.vpc_connector.id
-      egress    = "ALL_TRAFFIC"
-    }
-  }
-}
-```
+#### Step 1: Declare European Cloud Run App Service
+> [!NOTE]
+> **🤖 AI Pair-Programming Prompt**:
+> ```text
+> In terraform/main.tf, declare a new Google Cloud Run v2 service resource named "app_europe" (service name "hr-vacation-app-europe") in region "europe-west1".
+> Configure:
+> - Container image pointing to the app image in Artifact Registry.
+> - Ingress set to "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER".
+> - Environment variables: DB_WRITE_HOST = "write-db.hr-vacation.internal", DB_READ_HOST = "read-db.hr-vacation.internal", and DB_PASS.
+> - Outbound vpc_access connector set to google_vpc_access_connector.vpc_connector.id with egress = "ALL_TRAFFIC".
+> ```
 
 #### Step 2: Create European Serverless NEG
-```hcl
-resource "google_compute_region_network_endpoint_group" "serverless_neg_europe" {
-  name                  = "hr-vacation-neg-europe"
-  network_endpoint_type = "SERVERLESS"
-  region                = "europe-west1"
-  cloud_run {
-    service = google_cloud_run_v2_service.app_europe.name
-  }
-}
-```
+> [!NOTE]
+> **🤖 AI Pair-Programming Prompt**:
+> ```text
+> Add a regional serverless Network Endpoint Group resource named "serverless_neg_europe" (NEG name "hr-vacation-neg-europe") in region "europe-west1" in terraform/main.tf. Configure the cloud_run block to target google_cloud_run_v2_service.app_europe.name.
+> ```
 
 #### Step 3: Register Both Regional NEGs to GCLB Backend Service
-```hcl
-resource "google_compute_backend_service" "backend_service" {
-  name                  = "hr-vacation-backend-service"
-  protocol              = "HTTP"
-  port_name             = "http"
-  load_balancing_scheme = "EXTERNAL_MANAGED"
-
-  backend {
-    group = google_compute_region_network_endpoint_group.serverless_neg.id
-  }
-  backend {
-    group = google_compute_region_network_endpoint_group.serverless_neg_europe.id
-  }
-}
-```
+> [!NOTE]
+> **🤖 AI Pair-Programming Prompt**:
+> ```text
+> Update the google_compute_backend_service resource named "backend_service" in terraform/main.tf to add a second backend block referencing the European serverless NEG ID (google_compute_region_network_endpoint_group.serverless_neg_europe.id), so traffic is balanced across both US and European NEGs.
+> ```
 
 ---
 
 ### Task 4: Cross-Region AlloyDB Replication & Private DNS (Step 4)
 
 #### Step 4: Provision DR Secondary Cluster & Cloud DNS Record Set
-In `terraform/main.tf`, declare the secondary AlloyDB cluster and DNS abstraction:
+Use your Agentic AI IDE to configure cross-region database replication and DNS abstraction.
 
-```hcl
-# AlloyDB Secondary DR Cluster in europe-west1
-resource "google_alloydb_cluster" "secondary" {
-  cluster_id   = "hr-vacation-cluster-secondary"
-  location     = "europe-west1"
-  cluster_type = "SECONDARY"
-
-  network_config {
-    network = google_compute_network.vpc_network.id
-  }
-  secondary_config {
-    primary_cluster_name = google_alloydb_cluster.primary.name
-  }
-  deletion_protection = false
-}
-
-# Secondary instance in europe-west1
-resource "google_alloydb_instance" "secondary_instance" {
-  cluster       = google_alloydb_cluster.secondary.name
-  instance_id   = "hr-vacation-secondary-instance"
-  instance_type = "SECONDARY"
-
-  machine_config {
-    cpu_count = 2
-  }
-  depends_on = [google_alloydb_instance.primary_instance]
-}
-
-# Map DB_WRITE_HOST: write-db.hr-vacation.internal -> Primary AlloyDB IP
-resource "google_dns_record_set" "write_dns" {
-  name         = "write-db.hr-vacation.internal."
-  managed_zone = google_dns_managed_zone.private_zone.name
-  type         = "A"
-  ttl          = 60
-  rrdatas      = [google_alloydb_instance.primary_instance.ip_address]
-}
-```
-
-Document declarative vs. imperative trade-offs in `docs/imperative_vs_declarative.md`.
+> [!NOTE]
+> **🤖 AI Pair-Programming Prompt**:
+> ```text
+> In terraform/main.tf, add the following cross-region replication and DNS abstraction resources:
+> 1. An AlloyDB cluster resource named "secondary" (cluster_id "hr-vacation-cluster-secondary") in "europe-west1" with cluster_type set to "SECONDARY", connected to the VPC network, and referencing the primary cluster name in secondary_config.
+> 2. An AlloyDB instance resource named "secondary_instance" in "europe-west1" with instance_type "SECONDARY" inside the secondary cluster, with cpu_count = 2 and depends_on the primary instance.
+> 3. A Cloud DNS record set resource named "write_dns" under the private managed zone mapping "write-db.hr-vacation.internal." to the primary database instance IP address.
+> 4. Generate a comparative analysis note in docs/imperative_vs_declarative.md comparing declarative IaC management against imperative CLI operations.
+> ```
 
 ---
 
 ### Task 5: System Verification & DR Failover Promotion (Step 5)
 
-1. Apply Terraform configuration: `terraform apply`.
-2. Verify GCLB Anycast routing directs traffic to nearest regional endpoint.
-3. Perform DR failover test: Promote `google_alloydb_cluster.secondary` in `europe-west1` and update `write_dns` record to point to the promoted instance without redeploying backend logic.
-4. Execute automated verification:
-   ```bash
-   bash verify.sh
-   ```
+Validate your deployment and perform a simulated disaster recovery failover.
+
+> [!NOTE]
+> **🤖 AI Pair-Programming Prompt**:
+> ```text
+> Guide me to:
+> 1. Initialize and apply the updated Terraform code (terraform init && terraform apply).
+> 2. Test global Anycast routing latency using curl probes against the GCLB domain (https://hr-vacation.gcp-lab.internal/api/health).
+> 3. Practice a simulated DR failover by promoting the Secondary AlloyDB cluster in europe-west1 and updating the write-db.hr-vacation.internal DNS record to point to the promoted instance without redeploying the backend application.
+> 4. Execute automated verification: bash verify.sh
+> ```
 
 ---
 
