@@ -79,12 +79,12 @@ The customer's legacy HR solution has three major structural limitations:
 
 ### Task 1: Workload Discovery & Baseline Architecture Documentation
 
-In this task, you use Agentic AI IDE features and MCP tools to inspect the brownfield codebase (`Lab1/assignment_code`) and generate baseline topology documentation.
+In this task, you use Agentic AI IDE features and MCP tools to inspect the brownfield codebase (`Lab1/ce-sample-hr-vacation` cloned from `https://github.com/alanpoole/ce-sample-hr-vacation`) and generate baseline topology documentation.
 
 #### Step 1.1: Analyze the Existing Workload Codebase
 Prompt your Agentic AI IDE (or Antigravity CLI) to analyze the project:
 ```text
-Inspect the application codebase and infrastructure templates under Lab1/assignment_code. 
+Inspect the application codebase and infrastructure templates under Lab1/ce-sample-hr-vacation. 
 Identify all active Google Cloud services, networking boundaries, database connections, and ingress routing rules.
 ```
 

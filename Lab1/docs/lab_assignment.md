@@ -9,12 +9,12 @@ In this hands-on lab assignment, you will modernize Cymbal Group's single-region
 ## Assignment Tasks & AI Pair-Programming Prompts
 
 ### Step 1: Discover Workload & Generate Baseline Topology Docs
-Use your Agentic AI IDE to analyze `Lab1/assignment_code`. Generate `docs/baseline_summary.md` and `docs/baseline_architecture.mermaid` detailing the initial single-region footprint.
+Use your Agentic AI IDE to analyze `Lab1/ce-sample-hr-vacation`. Generate `docs/baseline_summary.md` and `docs/baseline_architecture.mermaid` detailing the initial single-region footprint.
 
 > [!NOTE]
 > **AI Pair-Programming Prompt**:
 > ```text
-> Analyze the single-region codebase and infrastructure templates in Lab1/assignment_code. Create two documentation artifacts in the docs/ folder:
+> Analyze the single-region codebase and infrastructure templates in Lab1/ce-sample-hr-vacation. Create two documentation artifacts in the docs/ folder:
 > 1. docs/baseline_summary.md: Documenting all Google Cloud components (Cloud Run, Cloud SQL, Firestore, VPC), their service dependencies, and single-region SPOF risks.
 > 2. docs/baseline_architecture.mermaid: A Mermaid flowchart representing the initial single-region application topology.
 > ```

@@ -18,7 +18,7 @@ Currently, the system is deployed as a single-region brownfield application in `
 In this lab, you act as a Lead Platform & Cloud Solutions Engineer. You use **Agentic AI tools** (VS Code Antigravity Extension, Antigravity CLI, Google Agent Skills, and MCP) to analyze the workload, discover the baseline architecture, process customer call transcripts, and migrate the system into a resilient multi-region topology.
 
 ### Repository Structure
-* **`assignment_code/`**: Starter brownfield codebase for student lab execution (`ce-sample-hr-vacation`).
+* **`ce-sample-hr-vacation/`**: Starter single-region brownfield codebase for student deployment (`https://github.com/alanpoole/ce-sample-hr-vacation`).
 * **`solution/`**: Complete multi-region modernization solution reference (`solution/app` and `solution/terraform`).
 * **`docs/`**: Lab guides, customer requirement call transcripts, and architecture specification templates.
 * **`verify.sh`**: Automated 5-task lab scoring and verification suite.
