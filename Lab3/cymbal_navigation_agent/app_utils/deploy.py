@@ -1,6 +1,7 @@
 import os
 import argparse
-from google.genai.agent import deploy_agent
+from google.adk.cli.cli_deploy import to_agent_engine as deploy_agent
+
 from cymbal_navigation_agent.agent import app
 
 def main():

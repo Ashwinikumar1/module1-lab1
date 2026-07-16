@@ -1,46 +1,44 @@
 # Lab 3: Building, Evaluating, Deploying & Publishing the Cymbal Navigation Agent with ADK
 
-Welcome to **Lab 3** of Project Elevate. In this hands-on lab, you will act as a Lead AI & Solutions Engineer at **Cymbal Group**. You will take pre-developed agent code for the **Cymbal Navigation & Planner Agent**, validate its local execution, run comprehensive ADK evaluations, deploy it to Vertex AI Agent Runtime (Reasoning Engine) with BigQuery Observability, register it into Gemini Enterprise, and verify full 4-tier enterprise observability.
+Welcome to **Lab 3** of Project Elevate. In this hands-on lab, you will act as a Lead AI & Solutions Engineer at **Cymbal Group**. You will take pre-developed agent code for the **Cymbal Navigation & Planner Agent**, validate its local execution, expand its evaluation dataset, run ADK evaluations, deploy it to Vertex AI Agent Runtime with BigQuery Observability, register it into Gemini Enterprise, and verify full 4-tier enterprise observability.
 
 ---
 
 ## 🎯 Learning Objectives
 
 By completing this lab, you will learn how to:
-1. **Verify GCP Environment & Enable Required APIs**: Use automated preflight verification scripts to validate `gcloud` credentials and enable Vertex AI, IAM, Telemetry, BigQuery, and Gemini Enterprise APIs.
-2. **Local Agent Testing**: Execute non-interactive CLI smoke tests and interactive web-based playground sessions using `agents-cli`.
-3. **Execute ADK Agent Evaluation (Quality Flywheel)**: Evaluate agent tool usage, factual grounding, response quality, and trajectory efficiency using built-in metrics and custom domain judges.
-4. **Deploy to Vertex AI Agent Runtime**: Deploy the agent as a production-grade Reasoning Engine instance with OpenTelemetry Cloud Tracing and BigQuery Agent Analytics export.
-5. **Publish & Register to Gemini Enterprise**: Programmatically register the deployed Reasoning Engine instance into a Gemini Enterprise Engine & Collection.
-6. **Verify 4-Tier Enterprise Observability**: Audit Cloud Trace spans, Prompt-Response logging, BigQuery `agent_events` dataset queries, and privacy configurations.
-7. **Leverage Agentic Skills**: Utilize standardized agent skills located in `skills/` (and `.agents/skills/`) to automate execution and validation workflows.
+1. **Verify GCP Environment & Enable Required APIs**: Validate `gcloud` credentials and enable Vertex AI, IAM, Telemetry, BigQuery, and Gemini Enterprise APIs.
+2. **Local Agent Testing**: Execute interactive web-based playground sessions and CLI smoke tests using `agents-cli`.
+3. **Execute ADK Agent Evaluation (Quality Flywheel)**: Expand the golden dataset (`evalset.json`) and run ADK quality flywheel evaluations using the `evaluation` skill.
+4. **Deploy to Vertex AI Agent Runtime**: Deploy the agent to Vertex AI Agent Runtime (Reasoning Engine) with OpenTelemetry Cloud Tracing and BigQuery Agent Analytics enabled using the `deployment` skill.
+5. **Publish & Register to Gemini Enterprise**: Programmatically register the deployed agent into Gemini Enterprise using the `publish` skill.
+6. **Enable & Verify 4-Tier Enterprise Observability**: Execute test queries and audit telemetry across Cloud Trace spans, Prompt-Response logs, and BigQuery `agent_events` dataset queries using the `observability` skill.
+7. **Leverage Agentic Skills**: Prompt your AI Coding Assistant (Antigravity) using high-level skill-based workflows.
 
 ---
 
 ## 📋 Prerequisites & Environment Setup
 
-Before starting the lab, ensure you have satisfied the following setup requirements:
+Before starting the lab tasks, satisfy the following setup requirements:
 
-### 1. Account & Project Credentials
-* **Altostrat GCP Account**: You must be assigned `roles/owner` or `roles/editor` on your assigned student GCP Project.
-* **Active GCloud Authentication**: Ensure `gcloud` is authenticated with application default credentials:
+### 1. Account & GCP Project Authentication
+* Ensure active GCloud authentication and Application Default Credentials (ADC):
   ```bash
   gcloud auth login
   gcloud auth application-default login
   ```
-* **Project ID Configuration**: Set your active GCP project ID:
+* Set active GCP Project ID and Vertex AI environment variables:
   ```bash
-  gcloud config set project YOUR_PROJECT_ID
   export GCP_PROJECT_ID="YOUR_PROJECT_ID"
+  export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
+  export GOOGLE_CLOUD_LOCATION="global"
+  export GOOGLE_GENAI_USE_VERTEXAI="true"
+  gcloud config set project $GCP_PROJECT_ID
   ```
 
-### 2. Required Installed Tools
-* **Google Agents CLI (`agents-cli`)**: Pre-installed via `uv tool install google-agents-cli` or local environment (`~/.local/bin/agents-cli`).
-* **Python Runtime & UV**: Python 3.10+ and `uv` package resolver installed.
-* **Google Maps API Key (Optional for Local Live Maps)**:
-  ```bash
-  export GOOGLE_MAPS_API_KEY="YOUR_MAPS_API_KEY"
-  ```
+### 2. Standard Installed Tools
+* **Google Agents CLI (`agents-cli`)**: Pre-installed via `uv tool install google-agents-cli`.
+* **Python Runtime & UV**: Python 3.10+ and `uv` package manager.
 
 ---
 
@@ -49,188 +47,154 @@ Before starting the lab, ensure you have satisfied the following setup requireme
 **Cymbal Group** requires an enterprise location-aware travel and event planning assistant. The customer engineering team has provided pre-developed agent source code in `cymbal_navigation_agent/`. 
 
 The agent integrates two primary tool capabilities:
-1. **Google Search Tool (`google_search`)**: Native grounding tool for real-time web intelligence, local event details, and reviews.
-2. **Google Maps API Tools (`search_google_maps` & `get_route_directions`)**: Custom API tools for physical address lookups, venue ratings, coordinates, and multi-modal transit/driving directions.
-
-```
-lab3_cymbal_navigation_planner/
-├── agents-cli-manifest.yaml           # agents-cli configuration manifest
-├── pyproject.toml                     # Python dependencies & build configuration
-├── scripts/
-│   └── preflight_check.sh             # GCP Auth & Service API verification script
-├── skills/                            # Agentic Skills Directory
-│   ├── evaluation/SKILL.md            # Skill: ADK Evaluation
-│   ├── deployment/SKILL.md            # Skill: Agent Runtime Deployment
-│   ├── publish/SKILL.md               # Skill: Gemini Enterprise Publishing
-│   └── observability/SKILL.md         # Skill: 4-Tier Telemetry Verification
-├── cymbal_navigation_agent/           # Core Agent Source Code (Customer Provided)
-│   ├── agent.py                       # Root agent, prompts, and callback initialization
-│   └── tools.py                       # Google Maps Places & Directions API tools
-└── tests/
-    └── eval/                          # Evaluation Suite
-        ├── datasets/
-        │   ├── evalset.json           # Primary evaluation dataset
-        │   └── basic-dataset.json     # Default fallback evaluation dataset
-        └── eval_config.yaml           # Evaluation metric declarations & custom judge
-```
+1. **Google Search Tool (`GoogleSearchTool`)**: Native search grounding tool for real-time web intelligence, local event details, and venue reviews.
+2. **Google Maps API Tools (`search_google_maps` & `get_route_directions`)**: Custom API tools for physical address lookups, ratings, coordinates, and multi-modal transit/driving directions.
 
 ---
 
-## ⚙️ Step 0: Mandatory GCP Preflight Check & Service API Enablement
+## ⚙️ Step 0: Mandatory GCP Preflight Check
 
-Before attempting local testing, evaluation, or deployment, you must run the preflight check. This script verifies your `gcloud` credentials and automatically enables all mandatory GCP APIs:
-* `aiplatform.googleapis.com` (Vertex AI Reasoning Engines)
-* `cloudresourcemanager.googleapis.com` (Resource Manager)
-* `iam.googleapis.com` (Identity & Access Management)
-* `logging.googleapis.com` (Cloud Logging)
-* `monitoring.googleapis.com` (Cloud Monitoring / OpenTelemetry)
-* `bigquery.googleapis.com` (BigQuery Telemetry Analytics)
-* `discoveryengine.googleapis.com` (Gemini Enterprise Engine)
+Before starting local testing or deployment, run the preflight verification script:
 
-### Command:
 ```bash
-cd lab3_cymbal_navigation_planner
 bash scripts/preflight_check.sh
 ```
 
 ---
 
-## 💻 Step 1: Local Development & Smoke Testing
+## 💻 Step 1: Local Agent Testing
 
-Verify that the pre-developed customer agent code executes properly in your local environment.
+Verify local agent execution using the web playground:
 
-### Non-Interactive Smoke Test:
-Run single prompts directly from the CLI:
-```bash
-agents-cli run "What major tech conferences are happening in San Francisco soon, and how do I get to Moscone Center from SFO airport?"
-```
-
-### Interactive Web Playground:
-Launch the interactive web-based UI playground to test multi-turn travel queries:
 ```bash
 agents-cli playground
 ```
+Access the local UI playground at `http://127.0.0.1:8080/dev-ui/?app=cymbal_navigation_agent`.
 
 ---
 
-## 🚀 Lab Student Tasks (3 Core Tasks)
+## 🚀 Student Lab Tasks (4 Core Skill-Driven Tasks)
 
-You have **3 main tasks** to complete in this lab. For each task, you can execute standard CLI commands or leverage the corresponding skill in the `skills/` directory.
+In this lab, you will use **Agentic Skills** located in `skills/` (and `.agents/skills/`). Rather than typing raw low-level terminal commands, you will instruct your AI assistant (Antigravity) using **high-level agentic prompts** that leverage these pre-built skills.
 
 ---
 
-### Task 1: ADK Evaluation & Quality Flywheel Execution
+### Task 1: Expand Golden Evaluation Dataset & Execute ADK Evaluation
 
-In this task, you will evaluate the agent's accuracy, tool execution logic, factual grounding, and navigation recommendations against the golden dataset (`tests/eval/datasets/evalset.json`).
+**Goal**: Expand the evaluation dataset (`tests/eval/datasets/evalset.json`) with additional complex multi-turn travel and navigation scenarios, then execute the ADK evaluation flywheel to evaluate task success, tool quality, trajectory quality, and navigation accuracy.
 
-#### Using the `evaluation` Skill:
-Leverage the skill specification in `skills/evaluation/SKILL.md`:
-1. Read `skills/evaluation/SKILL.md` or invoke the `evaluation` skill.
-2. Ensure `tests/eval/datasets/evalset.json` is populated.
-3. Run evaluation inference and grading:
-   ```bash
-   agents-cli eval run --config tests/eval/eval_config.yaml
-   ```
+#### 💡 High-Level Prompt for your AI Assistant:
+> *"Please open the `evaluation` skill ([skills/evaluation/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab3/skills/evaluation/SKILL.md)). First, add 2 new multi-turn travel evaluation test cases to `tests/eval/datasets/evalset.json` testing combined event search and driving directions. Then, execute the ADK evaluation flywheel using `tests/eval/eval_config.yaml` and generate the evaluation report artifact at `artifacts/docs/step9_eval_report.md`."*
 
 #### Evaluated Metrics:
-* **`multi_turn_task_success`**: Overall goal completion.
-* **`multi_turn_tool_use_quality`**: Technical correctness of Google Search and Maps API function calling.
-* **`multi_turn_trajectory_quality`**: Efficiency of planning steps.
-* **`final_response_quality`**: Clarity and completeness of travel output.
-* **`hallucination`**: Factual grounding against returned tool data.
-* **`navigation_accuracy_judge`**: Custom LLM judge evaluating route clarity, place ratings, and address accuracy.
+* **`multi_turn_task_success`**: Goal completion across multi-turn queries.
+* **`multi_turn_tool_use_quality`**: Function call accuracy for Google Search and Google Maps tools.
+* **`multi_turn_trajectory_quality`**: Planning step efficiency.
+* **`navigation_accuracy_judge`**: Custom LLM judge checking address accuracy and route clarity.
 
 #### Expected Output Artifact:
-* `artifacts/docs/step9_eval_report.md` (Contains metric summary scores and pass/fail analysis).
+* `artifacts/docs/step9_eval_report.md`
 
 ---
 
 ### Task 2: Deploy Agent to Vertex AI Agent Runtime with BigQuery Observability
 
-In this task, you will deploy the agent to managed **Vertex AI Agent Runtime** (Reasoning Engine) with OpenTelemetry Cloud Tracing and BigQuery Agent Analytics enabled.
+**Goal**: Deploy the `cymbal_navigation_agent` to managed Vertex AI Agent Runtime (Reasoning Engine) with OpenTelemetry Cloud Tracing (`gcp_trace`) and BigQuery Agent Analytics enabled (`--bq`).
 
-#### Using the `deployment` Skill:
-Leverage the skill specification in `skills/deployment/SKILL.md`:
-1. Read `skills/deployment/SKILL.md` or invoke the `deployment` skill.
-2. Execute physical deployment with telemetry export flags and global model resolution:
-   ```bash
-   agents-cli deploy \
-     --deployment-target agent_runtime \
-     --no-confirm-project \
-     --update-env-vars GOOGLE_CLOUD_LOCATION=global,OTEL_TRACES_EXPORTER=gcp_trace,GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY=true \
-     --bq
-   ```
+#### 💡 High-Level Prompt for your AI Assistant:
+> *"Please follow the `deployment` skill ([skills/deployment/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab3/skills/deployment/SKILL.md)). Deploy the `cymbal_navigation_agent` to Vertex AI Agent Runtime with global model resolution enabled (`GOOGLE_CLOUD_LOCATION=global`), OpenTelemetry trace exporter set to `gcp_trace`, and BigQuery telemetry analytics enabled (`--bq`). Document the deployment output in `artifacts/docs/step10_deploy_report.md` and save raw logs to `artifacts/docs/step10_deploy_log.txt`."*
 
-#### Deployment Rules & Environment Handling:
-* **Global Model Resolution**: Sets `GOOGLE_CLOUD_LOCATION=global` to resolve global models (e.g., `gemini-2.5-flash` or `gemini-3.5-flash`) in regional deployments (`us-central1`).
-* **Telemetry Exports**: Configures `OTEL_TRACES_EXPORTER=gcp_trace` and `--bq` for automated BigQuery streaming.
+#### Deployment Rules:
+* Sets `GOOGLE_CLOUD_LOCATION=global` for global model resolution (`gemini-2.5-flash`).
+* Enables `--bq` for automated BigQuery streaming telemetry export.
 
 #### Expected Output Artifacts:
-* `artifacts/docs/step10_deploy_log.txt` (Raw deployment output logs)
-* `artifacts/docs/step10_deploy_report.md` (Summary of deployed Reasoning Engine resource URI and status)
+* `artifacts/docs/step10_deploy_log.txt`
+* `artifacts/docs/step10_deploy_report.md`
 
 ---
 
-### Task 3: Register to Gemini Enterprise & Verify 4-Tier Observability
+### Task 3: Publish & Register Deployed Agent to Gemini Enterprise
 
-In this task, you will register the deployed Reasoning Engine instance into Gemini Enterprise and audit all four enterprise observability tiers.
+**Goal**: Register the deployed Reasoning Engine instance into Gemini Enterprise Engine & Collection so enterprise users can discover and interact with the agent.
 
-#### Part 3A: Gemini Enterprise Registration
-Leverage the skill specification in `skills/publish/SKILL.md`:
-1. Verify `deployment_metadata.json` exists after Task 2 deployment.
-2. Define your target Gemini Enterprise App ID:
-   ```bash
-   export GEMINI_ENTERPRISE_APP_ID="projects/$GCP_PROJECT_ID/locations/global/collections/default_collection/engines/cymbal-app"
-   ```
-3. Execute registration:
-   ```bash
-   agents-cli publish gemini-enterprise \
-     --gemini-enterprise-app-id "$GEMINI_ENTERPRISE_APP_ID" \
-     --display-name "Cymbal Navigation Agent" \
-     --description "AI Travel and Navigation Planner powered by Google Search & Google Maps"
-   ```
-4. **Expected Outputs**: `artifacts/docs/step16_publish_log.txt` and `artifacts/docs/step16_publish_report.md`.
+#### 💡 High-Level Prompt for your AI Assistant:
+> *"Please follow the `publish` skill ([skills/publish/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab3/skills/publish/SKILL.md)). Read the deployed Reasoning Engine metadata from `deployment_metadata.json` and publish the agent to Gemini Enterprise under the collection engine `projects/$GCP_PROJECT_ID/locations/global/collections/default_collection/engines/cymbal-app` with the display name 'Cymbal Navigation Agent'. Generate `artifacts/docs/step16_publish_report.md` upon completion."*
 
-#### Part 3B: 4-Tier Observability Verification
-Leverage the skill specification in `skills/observability/SKILL.md`:
-Audit the 4 observability tiers:
-1. **Cloud Trace**: OpenTelemetry span hierarchy (`invoke_agent`, `generate_content`, `execute_tool`).
-2. **Prompt-Response Logging**: Verify privacy settings (`OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=NO_CONTENT`).
-3. **BigQuery Agent Analytics**: Query `agent_events` table for session traces and tool invocations:
-   ```sql
-   SELECT event_id, event_type, agent_name, timestamp
-   FROM `YOUR_PROJECT_ID.telemetry.agent_events`
-   ORDER BY timestamp DESC LIMIT 10;
-   ```
-4. **Third-Party Integrations**: Confirm external telemetry hooks.
-5. **Expected Outputs**: `artifacts/docs/step17_observability_log.txt` and `artifacts/docs/step17_observability_report.md`.
+#### Expected Output Artifacts:
+* `artifacts/docs/step16_publish_log.txt`
+* `artifacts/docs/step16_publish_report.md`
 
 ---
 
-## 🛠️ How to Leverage the Skills Folder (`skills/`)
+### Task 4: Execute Live Test Queries & Verify 4-Tier Observability
 
-The workspace includes standard skill instructions located in `skills/` (and `.agents/skills/`). Skills provide detailed instructions, schema definitions, and automated verification rules for both human developers and agentic coding assistants.
+**Goal**: Run live test queries against the deployed agent instance to generate telemetry traffic, then audit all 4 enterprise observability tiers (Cloud Trace spans, Prompt-Response logs, BigQuery `agent_events` dataset queries, and third-party metrics).
 
-| Skill Name | Skill File Location | Primary Purpose |
+#### 💡 High-Level Prompt for your AI Assistant:
+> *"Please use the `observability` skill ([skills/observability/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab3/skills/observability/SKILL.md)). Execute sample test queries against the deployed Reasoning Engine resource ID. Then verify telemetry across 4 tiers: audit Cloud Trace spans for `invoke_agent` and `execute_tool`, verify prompt-response privacy logs, run a BigQuery SQL query against `$GCP_PROJECT_ID.telemetry.agent_events`, and record the output in `artifacts/docs/step17_observability_report.md`."*
+
+#### 4 Observability Tiers Verified:
+1. **Cloud Trace**: OpenTelemetry span hierarchy (`invoke_agent` → `execute_tool`).
+2. **Prompt-Response Logging**: Privacy payload logging policies.
+3. **BigQuery Agent Analytics**: Streaming SQL queries on `agent_events` table.
+4. **Third-Party Metrics**: Telemetry export hooks.
+
+#### Expected Output Artifacts:
+* `artifacts/docs/step17_observability_log.txt`
+* `artifacts/docs/step17_observability_report.md`
+
+---
+
+## 🔍 Verification: How to Verify Gemini Enterprise (GE) Deployment
+
+After completing Task 3 & Task 4, verify that your agent is correctly registered and live on Gemini Enterprise using either of the following methods:
+
+### Method 1: CLI Verification
+Check registered agents using `agents-cli`:
+
+```bash
+agents-cli publish status \
+  --gemini-enterprise-app-id "projects/$GCP_PROJECT_ID/locations/global/collections/default_collection/engines/cymbal-app"
+```
+
+Expected response should confirm:
+* **Registration Mode**: `ADK` (Reasoning Engine wrapper)
+* **Resource ID**: `projects/<PROJECT_NUMBER>/locations/us-central1/reasoningEngines/<REASONING_ENGINE_ID>`
+* **Status**: `ACTIVE`
+
+### Method 2: GCP Console / Gemini Enterprise Web Interface Verification
+1. Open the GCP Console and navigate to **Vertex AI Agent Builder / Discovery Engine**:
+   `https://console.cloud.google.com/gen-app-builder/engines?project=YOUR_PROJECT_ID`
+2. Select your Engine ID: **`cymbal-app`**.
+3. Under **Agents / Assistants**, verify that **`Cymbal Navigation Agent`** appears in the active agent list.
+4. Click **Preview / Test Agent** in the UI and enter a test prompt:
+   > *"How do I get from SFO Airport to Moscone Center?"*
+5. Confirm that the agent returns structured travel recommendations with tool execution traces visible.
+
+---
+
+## 🛠️ Summary of Available Agent Skills
+
+| Skill | Location | Purpose |
 |---|---|---|
-| **Preflight Check** | `scripts/preflight_check.sh` | Automated verification of credentials and GCP APIs |
-| **`evaluation`** | [skills/evaluation/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/lab3_cymbal_navigation_planner/skills/evaluation/SKILL.md) | ADK evaluation run execution and score reporting |
-| **`deployment`** | [skills/deployment/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/lab3_cymbal_navigation_planner/skills/deployment/SKILL.md) | Agent Runtime deployment with telemetry & global model handling |
-| **`publish`** | [skills/publish/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/lab3_cymbal_navigation_planner/skills/publish/SKILL.md) | Programmatic Gemini Enterprise app registration |
-| **`observability`** | [skills/observability/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/lab3_cymbal_navigation_planner/skills/observability/SKILL.md) | 4-tier telemetry verification (Cloud Trace, BQ Analytics, Logging) |
+| **Preflight Check** | `scripts/preflight_check.sh` | Validates GCP credentials & enables required APIs |
+| **`evaluation`** | [skills/evaluation/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab3/skills/evaluation/SKILL.md) | ADK quality flywheel dataset execution & scoring |
+| **`deployment`** | [skills/deployment/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab3/skills/deployment/SKILL.md) | Deploys agent to Vertex AI Reasoning Engine with BQ telemetry |
+| **`publish`** | [skills/publish/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab3/skills/publish/SKILL.md) | Registers Reasoning Engine into Gemini Enterprise App |
+| **`observability`** | [skills/observability/SKILL.md](file:///Users/ashwinikm/Desktop/Project_Elevate/projectelevate-module1/Lab3/skills/observability/SKILL.md) | Verifies 4-tier telemetry (Cloud Trace, BQ SQL, Privacy) |
 
 ---
 
-## ✅ Summary Checklist for Lab Completion
+## ✅ Submission Checklist
 
-Before submitting your lab work, verify that you have produced all required report artifacts:
-
-- [ ] Run `bash scripts/preflight_check.sh` successfully.
-- [ ] Tested local agent via `agents-cli run` or `agents-cli playground`.
-- [ ] Completed Task 1 (Evaluation) and generated `artifacts/docs/step9_eval_report.md`.
-- [ ] Completed Task 2 (Deployment) and generated `artifacts/docs/step10_deploy_report.md` & `step10_deploy_log.txt`.
-- [ ] Completed Task 3A (Gemini Enterprise Registration) and generated `artifacts/docs/step16_publish_report.md`.
-- [ ] Completed Task 3B (Observability Verification) and generated `artifacts/docs/step17_observability_report.md`.
+- [ ] Completed GCP Preflight Check (`scripts/preflight_check.sh`).
+- [ ] Validated local execution via `agents-cli playground`.
+- [ ] Completed Task 1 (Evaluation & Dataset Expansion) → `artifacts/docs/step9_eval_report.md`.
+- [ ] Completed Task 2 (Vertex AI Agent Runtime Deployment) → `artifacts/docs/step10_deploy_report.md`.
+- [ ] Completed Task 3 (Gemini Enterprise Registration) → `artifacts/docs/step16_publish_report.md`.
+- [ ] Completed Task 4 (4-Tier Observability Verification) → `artifacts/docs/step17_observability_report.md`.
+- [ ] Verified Gemini Enterprise deployment via CLI status or Web UI.
 
 ---
 *End of Student Lab Guide.*

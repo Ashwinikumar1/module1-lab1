@@ -24,4 +24,7 @@ __pycache__/
 *.pyc
 .agents-cli-scripts/
 *.log
+.adk/
+*.db
+
 

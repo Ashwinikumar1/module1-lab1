@@ -14,3 +14,7 @@ requires-python = ">=3.10"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cymbal_navigation_agent"]
+

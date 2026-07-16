@@ -1,6 +1,13 @@
 from google.genai import types
-from google.genai.agent import Agent, App, CallbackContext
-from google.adk.tools import google_search
+from google.adk.agents import Agent
+from google.adk.apps import App
+from google.adk.agents.callback_context import CallbackContext
+
+from google.adk.tools.google_search_tool import GoogleSearchTool
+
+
+google_search = GoogleSearchTool(bypass_multi_tools_limit=True)
+
 from cymbal_navigation_agent.tools import (
     search_google_maps,
     get_route_directions,
